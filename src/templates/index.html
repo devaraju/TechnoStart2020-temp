@@ -1,0 +1,617 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tz %}
+{% load crispy_forms_tags %}
+
+{% block header_content %}
+<header id="header">
+  <div class="container-fluid">
+
+    <div id="logo" class="pull-left">
+      <!-- <h1><a href="#intro" class="scrollto">TechnoStart 2020</a></h1> -->
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <a href=""><img style="width: 50%;" src="{% static 'images/logo.png' %}" alt="" title="TechnoStart-2020" /></a>
+    </div>
+
+    <nav id="nav-menu-container">
+      <ul class="nav-menu">
+        <li class="menu-active"><a href="#intro"><i class="fa fa-home">&nbsp;</i>Home</a></li>
+        <li><a href="#portfolio"><i class="fa fa-bullhorn">&nbsp;</i>Events</a>
+          <!-- <ul>
+                      <li><a href="#">Technical</a></li>
+                      <li><a href="#">Non-Technical</a></li>
+                  </ul> -->
+        </li>
+        <li><a href="#updates"><i class="fa fa-bell">&nbsp;</i>Updates</a></li>
+        <li><a href="#about"><i class="fa fa-book">&nbsp;</i>Schedule</a></li>
+        <li><a href="#contact"><i class="fa fa-phone">&nbsp;</i>Contact</a></li>
+
+        {% if user.is_authenticated %}
+        <li><a href="#test"><i class="fa fa-pencil">&nbsp;</i>Test</a></li>
+        <li class="menu-has-children"><a href="#"><i class="fa fa-user">&nbsp;</i>{{ user|upper }}</a>
+          <ul>
+            <li><a href="#" data-toggle="modal" data-target="#profile"><i
+                  class="fa fa-user-circle">&nbsp;</i>Profile</a></li>
+            <li><a href="#" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-unlock">&nbsp;</i>Logout</a>
+            </li>
+          </ul>
+        </li>
+
+        {% else %}
+        <li><a href="{% url 'login'%}"><i class="fa fa-lock">&nbsp;</i>Login</a></li>
+        {% endif %}
+      </ul>
+    </nav><!-- #nav-menu-container -->
+  </div>
+</header><!-- #header -->
+
+
+<!--==========================
+    Intro Section
+  ============================-->
+<section id="intro">
+  <div class="intro-container">
+    <div id="introCarousel" class="carousel  slide carousel-fade" data-ride="carousel">
+
+      <ol class="carousel-indicators"></ol>
+
+      <div class="carousel-inner" role="listbox">
+
+        <div class="carousel-item active">
+          <div class="carousel-background"><img src="{% static 'images/intro-carousel/bg-ironman.jpg' %}" alt=""></div>
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2 style="font-family: 'Open Sans', sans-serif;">TechnoStart-2020</h2>
+              <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="carousel-background"><img src="{% static 'images/intro-carousel/bg1.jpg' %}" alt=""></div>
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2>TechnoStart-2020</h2>
+              <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="carousel-background"><img src="{% static 'images/intro-carousel/bg3.jpg' %}" alt=""></div>
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2>TechnoStart-2020</h2>
+              <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="carousel-background"><img src="{% static 'images/intro-carousel/bg5.jpg' %}" alt=""></div>
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2>TechnoStart-2020</h2>
+              <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item">
+          <div class="carousel-background"><img src="{% static 'images/intro-carousel/bg6.jpg' %}" alt=""></div>
+          <div class="carousel-container">
+            <div class="carousel-content">
+              <h2>TechnoStart-2020</h2>
+              <a href="#portfolio" class="btn-get-started scrollto">Get Started</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <a class="carousel-control-prev" href="#introCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon ion-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+
+      <a class="carousel-control-next" href="#introCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon ion-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+
+<main id="main">
+  <!--==========================
+      Events Section
+    ============================-->
+  {% if all_events %}
+  <section id="portfolio" class="section-bg">
+    <div class="container">
+
+      <header class="section-header">
+        <h3 class="section-title">Events</h3>
+      </header>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <ul id="portfolio-flters">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-app">Technical</li>
+            <li data-filter=".filter-web">Non-Technical</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Technical Events -->
+      <div class="row portfolio-container">
+        {% for event in tech_events|slice:":4" %}
+        
+        <div class="col-lg-3 col-md-2 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.1s">
+          <div class="portfolio-wrap">
+            <figure class="figure" data-toggle="modal" data-target="#event_{{ event.id }}">
+              <img src="{{ event.cover.url }}" class="img-fluid" alt="">
+            </figure>
+
+            <div class="portfolio-info">
+              <h6><a href="#" data-toggle="modal" data-target="#event_{{ event.id }}">{{ event.title|upper }}</a></h6>
+              <p>{{ event.category|upper }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Details Modal -->
+        <div class="modal fade modal-auto" id="event_{{ event.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body bg-dark" style="color: whitesmoke;">
+                <!-- ====== -->
+
+                <div class="container">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-pills justify-content-center">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
+                    </li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div id="description_{{event.id}}" class="container tab-pane active"><br>
+                      <p>{{ event.description }}</p>
+                    </div>
+                    <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
+                      <p>{{ event.rules }}</p>
+                    </div>
+                    <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
+                      <p>{{ event.organizers }}</p>
+                    </div>
+                    <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
+                      <p>{{ event.winners }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===== -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {% if user.is_authenticated %}
+                {% if event.title in reg_events %}
+                <button type="button" class="btn btn-success" disabled="true">Registered!</button>
+                {% elif event.no_of_participants > 1 %}
+                <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                  data-target="#addingTeam">Add & Register</button>
+
+                {% else %}
+                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Do Register</a>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-warning">Login Required</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Event Details Modal -->
+
+
+        <!-- Adding-Team Modal -->
+        <div class="modal fade modal-auto" id="addingTeam" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
+                  Registration </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <form method="POST">
+                  {% csrf_token %}
+                  {% for i in "x"|rjust:event.no_of_participants %}
+                  <div class="form-group">
+                    <label>Team Member-{{forloop.counter}}</label>
+                    <input type="text" name="user_{{forloop.counter}}" class="form-control" placeholder="Enter ID No">
+                  </div>
+
+                  {% endfor %}
+
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
+                  class="btn btn-primary">Register</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End Adding-Team Modal -->
+
+        {% endfor %}
+        <!-- END Technical Events -->
+
+        <!-- Non-Technical Events -->
+        {% for event in non_tech_events|slice:":4" %}
+        <div class="col-lg-3 col-md-2 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+          <div class="portfolio-wrap">
+            <figure class="figure" data-toggle="modal" data-target="#event_{{ event.id }}">
+              <img src="{{ event.cover.url }}" class="img-fluid" alt="">
+            </figure>
+
+            <div class="portfolio-info">
+              <h6><a href="#" data-toggle="modal" data-target="#event_{{ event.id }}">{{ event.title|upper }}</a></h6>
+              <p>{{ event.category|upper }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Details Modal -->
+        <div class="modal fade modal-auto" id="event_{{ event.id }}" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body bg-dark" style="color: whitesmoke;">
+                <!-- ====== -->
+
+                <div class="container">
+                  <!-- Nav tabs -->
+                  <ul class="nav nav-pills justify-content-center">
+                    <li class="nav-item">
+                      <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
+                    </li>
+                  </ul>
+
+                  <!-- Tab panes -->
+                  <div class="tab-content">
+                    <div id="description_{{event.id}}" class="container tab-pane active"><br>
+                      <p>{{ event.description }}</p>
+                    </div>
+                    <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
+                      <p>{{ event.rules }}</p>
+                    </div>
+                    <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
+                      <p>{{ event.organizers }}</p>
+                    </div>
+                    <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
+                      <p>{{ event.winners }}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ===== -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {% if user.is_authenticated %}
+                {% if event.title in reg_events %}
+                <button type="button" class="btn btn-success" disabled="true">Registered!</button>
+                {% elif event.no_of_participants > 1 %}
+                <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                  data-target="#addingTeam">Add & Register</button>
+
+                {% else %}
+                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Do Register</a>
+                {% endif %}
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-warning">Login Required</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Event Details Modal -->
+
+
+        <!-- Adding-Team Modal -->
+        <div class="modal fade modal-auto" id="addingTeam" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
+                  Registration </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-body">
+                <form method="POST">
+                  {% csrf_token %}
+                  {% for i in "x"|rjust:event.no_of_participants %}
+                  <div class="form-group">
+                    <label>Team Member-{{forloop.counter}}</label>
+                    <input type="text" name="user_{{forloop.counter}}" class="form-control" placeholder="Enter ID No">
+                  </div>
+
+                  {% endfor %}
+
+                </form>
+              </div>
+
+              <div class="modal-footer">
+                <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
+                  class="btn btn-primary">Register</a>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--End Adding-Team Modal -->
+
+        {% endfor %}
+        <!-- END Non-Technical Events -->
+      </div>
+
+      <div class="text-center">
+        <a id="more-btn" href="{% url 'allEvents' %}" class="btn btn-sm" style="border-radius: 50%;">
+          <i class="fa fa-chevron-down"></i></a>
+      </div>
+
+    </div>
+
+  </section>
+  {% endif %}
+
+  <!--==========================
+      Update panel
+    ============================-->
+  {% if notices %}
+  <section id="updates">
+    <div class="container">
+      <header class="section-header">
+        <h3>Updates</h3>
+      </header>
+      <div class="table-responsive text-center">
+        <table class="table table-stripped table-bordered">
+          <thead class="table-dark text-center">
+            <tr>
+              <td>S.No</td>
+              <td>Notice Title </td>
+              <td>Date&Time</td>
+              <td>About</td>
+            </tr>
+          </thead>
+          <tbody>
+
+
+            {% for notice in notices|slice:":5" %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td><a href="#" data-toggle="modal" data-target="#notice_{{ notice.id }}">{{ notice.title }}</a></td>
+              <td>{{ notice.date_created }}</td>
+              <td>{{ notice.about }}</td>
+            </tr>
+            <!-- Modal -->
+            <div class="modal fade modal-auto" id="notice_{{notice.id}}" tabindex="-1" role="dialog"
+              aria-labelledby="notification_model" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ notice.title }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <p>{{ notice.body }}</p>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a id="more-btn" href="{% url 'allNotices' %}" class="btn btn-sm" style="border-radius: 50%;"><i
+            class="fa fa-chevron-down"></i></a>
+        <!-- <a href="{% url 'allNotices' %}"  class="btn btn-sm btn-block btn-outline-dark" >More</a> -->
+        {% endif %}
+
+
+
+      </div>
+    </div>
+
+  </section>
+
+
+  <!--==========================
+      Schedule Section
+    ============================-->
+  {% if schedule %}
+  <section id="about">
+    <div class="container">
+
+      <header class="section-header">
+        <h3>Schedule</h3>
+      </header>
+
+      <div class="row about-cols">
+        {% for date, events in schedule.items %}
+        <div class="col-md-4 wow fadeInUp">
+          <div class="about-col">
+            <div class="row">
+              <div class="col">
+                <div class="img">
+                  <div class="icon"><i class="ion-ios-list-outline"></i></div>
+                </div>
+                <h2 class="title"><a href="#">{{ date|date:"D d M" }}'s Schedule</a></h2>
+              </div>
+            </div>
+            <div class="list-group">
+              {% for event in events %}
+              {% if event.isCompleted %}
+              <a href="#" class="list-group-item disabled"><s>{{event.event.title}} :
+                  Round-{{event.round_no}}&nbsp;({{ event.start_time }})</s></a>
+              {% elif event.isLive %}
+              <a href="#" class="list-group-item"><mark>{{event.event.title}} :
+                  Round-{{event.round_no}}&nbsp;({{ event.start_time }})</mark></a>
+              {% else %}
+              <a href="#" class="list-group-item">{{event.event.title}} :
+                Round-{{event.round_no}}&nbsp;({{ event.start_time }})</a>
+              {% endif %}
+
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+
+    </div>
+  </section><!-- #schedule -->
+  {% endif %}
+
+  <!--==========================
+      Test section
+    ============================-->
+  {% if user.is_authenticated %}
+
+  <section id="test">
+    <div class="container">
+      <header class="section-header">
+        <h3>Test</h3>
+      </header>
+      <div class="table-responsive">
+        <table class="table table-stripped table-bordered">
+          <thead class="table-dark text-center">
+            <tr>
+              <td>S.No</td>
+              <td>Msg Subject </td>
+              <td>Date & Time</td>
+              <td>About</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><a href="#">File to download</a></td>
+              <td>Today's date and present time</td>
+              <td>Testing the updates tables</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><a href="#">File to download</a></td>
+              <td>Today's date and present time</td>
+              <td>Testing the updates tables</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+
+  <!--==========================
+      Contact Section
+    ============================-->
+  <section id="contact" class="section-bg wow fadeInUp">
+    <div class="container">
+
+      <div class="section-header">
+        <h3>Contact Us</h3>
+        <p>For any queries</p>
+      </div>
+
+      <div class="row contact-info">
+
+        <div class="col-md-4">
+          <div class="contact-address">
+            <i class="ion-ios-location-outline"></i>
+            <h3>Venue</h3>
+            <address>First Floor, AB-2, RGUKT-NUZ</address>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="contact-phone">
+            <i class="ion-ios-telephone-outline"></i>
+            <h3>Phone Number</h3>
+            <p>96181******</p>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="contact-email">
+            <i class="ion-ios-email-outline"></i>
+            <h3>Email</h3>
+            <p>technostart@rguktn.ac.in</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+  <!-- contact -->
+
+
+
+
+
+
+</main>
+
+{% endblock header_content %}
