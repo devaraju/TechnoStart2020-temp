@@ -14,22 +14,24 @@
                         <!-- Nested Row within Card Body -->
                         <div class="row justify-content-center">
                             <div class="py-1 ">
-                                <h1 class="h4 text-gray-900 mb-4">Organiser Register Form</h1><hr>
+                                <h1 class="h4 text-gray-900 mb-4">Password Change Form</h1>
+                                <hr>
                             </div>
                             <div class="col-lg-10 mx-auto">
-                                <div >
-                                    
+                                <div>
+
                                     <form method="POST">
                                         {% csrf_token %}
                                         {{ form|crispy }}
 
                                         <div class="form-group text-center">
-                                            <input type="submit" class="btn btn-outline-success" value="Register">
+                                            <input type="submit" value="Change Password"
+                                                class="btn btn-outline-success" />
                                         </div>
                                     </form>
                                     <hr>
-                                    <div class="text-center" style="display: none;">
-                                        <a class="small" href="{% url 'login' %}">Already have an Account!</a>
+                                    <div class="text-center">
+                                        <a class="small" href="{% url 'login' %}">No need to Change password?</a>
                                     </div>
                                 </div>
                             </div>

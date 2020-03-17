@@ -16,12 +16,7 @@
     <nav id="nav-menu-container">
       <ul class="nav-menu">
         <li class="menu-active"><a href="#intro"><i class="fa fa-home">&nbsp;</i>Home</a></li>
-        <li><a href="#portfolio"><i class="fa fa-bullhorn">&nbsp;</i>Events</a>
-          <!-- <ul>
-                      <li><a href="#">Technical</a></li>
-                      <li><a href="#">Non-Technical</a></li>
-                  </ul> -->
-        </li>
+        <li><a href="#portfolio"><i class="fa fa-bullhorn">&nbsp;</i>Events</a></li>
         <li><a href="#updates"><i class="fa fa-bell">&nbsp;</i>Updates</a></li>
         <li><a href="#about"><i class="fa fa-book">&nbsp;</i>Schedule</a></li>
         <li><a href="#contact"><i class="fa fa-phone">&nbsp;</i>Contact</a></li>
@@ -278,7 +273,7 @@
         <!-- Non-Technical Events -->
         {% for event in non_tech_events|slice:":4" %}
 
-        <div class="col-lg-3 col-md-2 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
+        <div class="col-lg-3 col-md-2 portfolio-item filter-web wow fadeInUp" data-wow-delay="0s">
           <div class="portfolio-wrap">
             <figure class="figure" data-toggle="modal" data-target="#event_{{ event.id }}">
               <img src="{{ event.cover.url }}" class="img-fluid" alt="">
@@ -499,20 +494,22 @@
                 <h2 class="title"><a href="#">{{ date|date:"D d M" }}'s Schedule</a></h2>
               </div>
             </div>
-            <div class="list-group">
-              {% for event in events %}
-              {% if event.isCompleted %}
-              <a href="#" class="list-group-item disabled"><s>{{event.event.title}} :
-                  Round-{{event.round_no}}&nbsp;({{ event.start_time }})</s></a>
-              {% elif event.isLive %}
-              <a href="#" class="list-group-item"><mark>{{event.event.title}} :
-                  Round-{{event.round_no}}&nbsp;({{ event.start_time }})</mark></a>
-              {% else %}
-              <a href="#" class="list-group-item">{{event.event.title}} :
-                Round-{{event.round_no}}&nbsp;({{ event.start_time }})</a>
-              {% endif %}
+            <div>
+              <ul class="list-group">
+                {% for event in events %}
+                {% if event.isCompleted %}
+                <li class="list-group-item disabled"><s>{{event.event.title}} :
+                    Round-{{event.round_no}}&nbsp;({{ event.start_time }})</s></li>
+                {% elif event.isLive %}
+                <li class="list-group-item"><mark>{{event.event.title}} :
+                    Round-{{event.round_no}}&nbsp;({{ event.start_time }})</mark></li>
+                {% else %}
+                <li class="list-group-item">{{event.event.title}} :
+                  Round-{{event.round_no}}&nbsp;({{ event.start_time }})</li>
 
-              {% endfor %}
+                {% endif %}
+                {% endfor %}
+              </ul>
             </div>
           </div>
         </div>

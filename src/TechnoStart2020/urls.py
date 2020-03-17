@@ -2,11 +2,12 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.conf import settings
-
+from django.contrib.auth import urls as auth_urls
 
 from .views import *
 
 urlpatterns = [
+
     path('admin/', admin.site.urls),
     path('ts/', home, name="home"),
     path('ts/notice/', include('notices.urls')),

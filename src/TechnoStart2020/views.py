@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 import datetime
 
-from users.models import *
-from notices.models import *
+from users.models import Student, Organizer
+from notices.models import Notice
 from events.models import Event, EventSchedule, EventRegistration
 
 from users.forms import CustomAuthenticationForm
@@ -20,7 +20,6 @@ def home(request):
     all_events = Event.objects.all()
     tech_events = Event.objects.filter(category="technical")
     non_tech_events = Event.objects.filter(category="non-technical")
-    
 
     context = {
         'notices':notices,

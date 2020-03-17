@@ -1,9 +1,7 @@
 from django.urls import path
 
-from .views import *
+from .views import allNotices
 
 urlpatterns = [
-	path('<int:id>', noticeDetail, name="noticeDetail"),
     path('', allNotices, name="allNotices"),
-
 ]

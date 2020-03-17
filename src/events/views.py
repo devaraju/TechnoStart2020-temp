@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from .models import *
-from users.models import *
+from .models import Event, EventRegistration
+from users.models import Student, Organizer
 
 @login_required
 def eventRegister(request, eventId):
@@ -51,6 +51,10 @@ def eventRegisterMany(request, users_cnt, eventId):
 
 
 def allEvents(request):
+    profile_data = []
+    if request.user.is_authenticated:
+        profile_data = Organizer.objects.get(idno=request.user.username) if request.user.is_staff else Student.objects.get(idno=request.user.username)
+
     if request.method == 'POST':
         title = request.POST.get('title','')
         context1 = {'all_events':list(Event.objects.filter(title__icontains=title)), 'isSearchActive':True,}
@@ -58,7 +62,7 @@ def allEvents(request):
         context1 = {'all_events': Event.objects.all()}
 
     reg_events_data, reg_events_titles= getRegEventsIds(request.user)
-    context = {'reg_events_data':reg_events_data, 'reg_events_titles':reg_events_titles,}
+    context = {'reg_events_data':reg_events_data, 'reg_events_titles':reg_events_titles, 'profile_data':profile_data}
     context.update(context1)
     return render(request,'events/events.html', context)
 

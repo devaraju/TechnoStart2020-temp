@@ -15,14 +15,12 @@ class CustomAuthenticationForm(AuthenticationForm):
     username = UsernameField(label='', widget=forms.TextInput(attrs={'autofocus':True, 'placeholder':'University ID'}))
     password = UsernameField(label='', widget=forms.PasswordInput(attrs={'autofocus':True, 'placeholder':'Password'}))
 
-# class StudentUpdateForm(ModelForm):
-#     class Meta:
-#         model = Student
-#         exclude = ['user', 'idno', 'events']
+class StudentUpdateForm(ModelForm):
+    class Meta:
+        model = Student
+        fields = ['mobile']
 
-# class OrganizerUpdateForm(ModelForm):
-#     idno = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-#     events = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-#     class Meta:
-#         model = Organizer
-#         exclude = ['user',]
+class OrganizerUpdateForm(ModelForm):
+    class Meta:
+        model = Organizer
+        exclude = ['user','idno', 'events',]

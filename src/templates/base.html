@@ -45,7 +45,7 @@
 
     <footer id="footer" style="margin-top: 16% !important;">
 
-        <div class="container" >
+        <div class="container">
             <div class="copyright">
                 &copy; Copyright <strong>CSE dept</strong>. All Rights Reserved
             </div>
@@ -55,7 +55,7 @@
         </div>
     </footer>
 
-    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <a href="#header" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
     <!-- Uncomment below i you want to use a preloader -->
     <!-- <div id="preloader"></div> -->
 
@@ -91,7 +91,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ user.username }}</h5>
+                    <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ user.username|upper }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -111,59 +111,56 @@
 
                         <!-- Tab panes -->
                         <div class="tab-content">
-                            <div id="eventsdata" class="container tab-pane active"><br>
-                                <center>
-                                    <table class="table table-responsive table-stripped">
-                                        <thead class="thead-light">
-                                            <tr>
-                                                <th scope="col">S.No.</th>
-                                                <th scope="col">ID Nos</th>
-                                                <th scope="col">Regestered Events</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for event in reg_events_data %}
-                                            <tr>
-                                                <th scope="row">{{forloop.counter}}</th>
-                                                <td>{{event.idnos}}</td>
-                                                <td>{{event.reg_events}}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </center>
-                            </div>
-
-                            <div id="profiledata" class="container tab-pane fade text-center"><br>
-                                <center>
-                                    <table class="table table-responsive table-stripped">
-                                        <tbody>
-                                            <tr>
-                                                <td>IDNO</td>
-                                                <td>{{ profile_data.idno }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Name</td>
-                                                <td>{{ profile_data.name }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Section</td>
-                                                <td>{{ profile_data.section }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Batch</td>
-                                                <td>{{ profile_data.batch }}</td>
-                                            </tr>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </center>
+                            <div id="eventsdata" class="container tab-pane active my-3">
+                                <table class="table table-striped p-0 m-0">
+                                    <thead class="bg-dark" style="color: whitesmoke;">
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">S.No</th>
+                                            <th scope="col" style="width: 20%;">Reg. IDs</th>
+                                            <th scope="col" style="width: 70%;">Reg. Events</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for event in reg_events_data %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{event.idnos}}</td>
+                                            <td>
+                                                <p>{{event.reg_events}}</p>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
 
                             </div>
 
+                            <div id="profiledata" style="color: black;" class="container tab-pane fade my-3">
+                                <center>
+                                <table class="table table-striped" style="width: 60%;">
+                                    <tbody>
+                                        <tr>
+                                            <td id="left_cell">University ID</td>
+                                            <td id="rifht_cell"><strong>{{ profile_data.idno }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td id="left_cell">Name</td>
+                                            <td id="rifht_cell"><strong>{{ profile_data.name|upper }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td id="left_cell">Section</td>
+                                            <td id="rifht_cell"><strong>{{ profile_data.section|upper }}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td id="left_cell">Batch</td>
+                                            <td id="rifht_cell"><strong>{{ profile_data.batch|upper }}</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </center>
+                            </div>
                         </div>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

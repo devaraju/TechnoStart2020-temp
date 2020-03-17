@@ -1,3 +1,13 @@
+#left_cell{
+  /* float: right; */
+  width: 50%;
+}
+#right_cell{
+  /* float: left; */
+  width: 50%;
+
+}
+
 body {
   background: #fff;
   color: #666666;

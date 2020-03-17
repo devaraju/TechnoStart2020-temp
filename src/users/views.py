@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
 
 from .forms import *
 
@@ -18,18 +20,41 @@ def organizerRegister(request):
         form = OrgRegisterForm()
         return render(request, 'users/org_register.html', { 'form':form})
 
+@login_required
+def newUserRegistration(request):
+    if not request.user.is_superuser:
+        return redirect('home')
+    
+    from .newStudentsReg import studentRegData
+    user_data = studentRegData.getNewStudentData() 
 
-# @login_required
-# def profileUpdate(request):
-#     user = request.user
+    for idno, pswd in user_data.items():
+        print(f'Creating user account for {idno}',end=": ")
+        if not User.objects.filter(username=idno).exists():
+            user=User.objects.create_user(username=idno,password=pswd)
+            user.save()
+            print('Success')
+        else:
+            print('Error')
+    return redirect('home')
 
-#     if request.method == 'POST':
-#         form = OrganizerUpdateForm(request.POST, instance=request.user.organizer) if user.is_staff else StudentUpdateForm(request.POST,instance=request.user.student)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, f'Profile has been updated!')
-#             return redirect('home')
-#     else:
-#         form = OrganizerUpdateForm(instance=request.user.organizer) if user.is_staff else StudentUpdateForm(instance=request.user.student)
+@login_required
+def profileUpdate(request):
+    user = request.user
 
-#     return render(request, 'users/profile.html', { "form":form })
+    if request.method == 'POST':
+        form = OrganizerUpdateForm(request.POST, instance=request.user.organizer) if user.is_staff else StudentUpdateForm(request.POST,instance=request.user.student)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Profile has been updated!')
+            return redirect('home')
+    else:
+        form = OrganizerUpdateForm(instance=request.user.organizer) if user.is_staff else StudentUpdateForm(instance=request.user.student)
+
+    return render(request, 'users/profile_update.html', { "form":form })
+
+class LoginAfterPasswordChangeView(PasswordChangeView):
+    @property
+    def success_url(self):
+        return reverse_lazy('logout')
+
