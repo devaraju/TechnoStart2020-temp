@@ -21,7 +21,19 @@ p {
   padding: 0;
   margin: 0 0 30px 0;
 }
+#more-btn{
+  background-color: #18d26e;
+  color: whitesmoke;
+}
+#more-btn:hover{
+  color: #18d26e;
+  background-color: whitesmoke;
+}
 
+pre{
+  color: rgb(255, 255, 255);
+  font-family: "Open Sans", sans-serif;
+}
 h1,
 h2,
 h3,

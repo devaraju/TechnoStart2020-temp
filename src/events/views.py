@@ -51,15 +51,15 @@ def eventRegisterMany(request, users_cnt, eventId):
 
 
 def allEvents(request):
-    all_events = Event.objects.all()
+    if request.method == 'POST':
+        title = request.POST.get('title','')
+        context1 = {'all_events':list(Event.objects.filter(title__icontains=title)), 'isSearchActive':True,}
+    else:
+        context1 = {'all_events': Event.objects.all()}
 
     reg_events_data, reg_events_titles= getRegEventsIds(request.user)
-    context = {
-        'reg_events_data':reg_events_data,
-        'reg_events_titles':reg_events_titles,
-        'all_events':all_events,
-    }
-
+    context = {'reg_events_data':reg_events_data, 'reg_events_titles':reg_events_titles,}
+    context.update(context1)
     return render(request,'events/events.html', context)
 
 def getRegEventsIds(user):

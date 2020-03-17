@@ -150,7 +150,7 @@
       <!-- Technical Events -->
       <div class="row portfolio-container">
         {% for event in tech_events|slice:":4" %}
-        
+
         <div class="col-lg-3 col-md-2 portfolio-item filter-app wow fadeInUp" data-wow-delay="0.1s">
           <div class="portfolio-wrap">
             <figure class="figure" data-toggle="modal" data-target="#event_{{ event.id }}">
@@ -165,68 +165,62 @@
         </div>
 
         <!-- Event Details Modal -->
-        <div class="modal fade modal-auto" id="event_{{ event.id }}" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body bg-dark" style="color: whitesmoke;">
-                <!-- ====== -->
+              <div class="modal-body bg-dark" style="color:whitesmoke;">
+                <ul class="nav nav-pills justify-content-center">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
+                  </li>
+                </ul>
 
-                <div class="container">
-                  <!-- Nav tabs -->
-                  <ul class="nav nav-pills justify-content-center">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
-                    </li>
-                  </ul>
-
-                  <!-- Tab panes -->
-                  <div class="tab-content">
-                    <div id="description_{{event.id}}" class="container tab-pane active"><br>
-                      <p>{{ event.description }}</p>
-                    </div>
-                    <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.rules }}</p>
-                    </div>
-                    <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.organizers }}</p>
-                    </div>
-                    <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.winners }}</p>
-                    </div>
+                <div class="tab-content">
+                  {% autoescape off %}
+                  <div id="description_{{event.id}}" class="container tab-pane active"><br>
+                    <p>{{ event.description }}</p>
                   </div>
-                </div>
+                  <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
+                    <p>{{ event.rules}}</p>
+                  </div>
+                  <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
+                    <p>{{ event.organizers }}</p>
+                  </div>
+                  <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
+                    <p>{{ event.winners }}</p>
+                  </div>
+                  {% endautoescape %}
 
-                <!-- ===== -->
+                </div>
               </div>
               <div class="modal-footer">
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {% if user.is_authenticated %}
-                {% if event.title in reg_events %}
+                {% if not user.is_staff %}
+                {% if event.title in reg_events_titles %}
                 <button type="button" class="btn btn-success" disabled="true">Registered!</button>
                 {% elif event.no_of_participants > 1 %}
                 <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                  data-target="#addingTeam">Add & Register</button>
-
+                  data-target="#addteam_{{event.id}}">Team Register</button>
                 {% else %}
-                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Do Register</a>
+                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
                 {% endif %}
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-warning">Login Required</a>
                 {% endif %}
               </div>
             </div>
@@ -236,7 +230,7 @@
 
 
         <!-- Adding-Team Modal -->
-        <div class="modal fade modal-auto" id="addingTeam" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -250,15 +244,21 @@
               <div class="modal-body">
                 <form method="POST">
                   {% csrf_token %}
-                  {% for i in "x"|rjust:event.no_of_participants %}
+                  {% with ''|center:event.no_of_participants as range %}
+                  {% for i in range %}
                   <div class="form-group">
                     <label>Team Member-{{forloop.counter}}</label>
-                    <input type="text" name="user_{{forloop.counter}}" class="form-control" placeholder="Enter ID No">
+                    {% if forloop.counter == 1 %}
+                    <input type="text" name="user_{{forloop.counter}}" class="form-control" value="{{user.username}}"
+                      disabled>
+                    {% else %}
+                    <input type="text" name="user_{{forloop.counter}}" class="form-control"
+                      placeholder="Enter ID No-{{forloop.counter}}">
+                    {% endif %}
                   </div>
-
                   {% endfor %}
+                  {% endwith %}
 
-                </form>
               </div>
 
               <div class="modal-footer">
@@ -266,6 +266,7 @@
                   class="btn btn-primary">Register</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
+              </form>
             </div>
           </div>
         </div>
@@ -276,6 +277,7 @@
 
         <!-- Non-Technical Events -->
         {% for event in non_tech_events|slice:":4" %}
+
         <div class="col-lg-3 col-md-2 portfolio-item filter-web wow fadeInUp" data-wow-delay="0.1s">
           <div class="portfolio-wrap">
             <figure class="figure" data-toggle="modal" data-target="#event_{{ event.id }}">
@@ -290,68 +292,62 @@
         </div>
 
         <!-- Event Details Modal -->
-        <div class="modal fade modal-auto" id="event_{{ event.id }}" tabindex="-1" role="dialog" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }}</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body bg-dark" style="color: whitesmoke;">
-                <!-- ====== -->
+              <div class="modal-body bg-dark" style="color:whitesmoke;">
+                <ul class="nav nav-pills justify-content-center">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
+                  </li>
+                </ul>
 
-                <div class="container">
-                  <!-- Nav tabs -->
-                  <ul class="nav nav-pills justify-content-center">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
-                    </li>
-                  </ul>
-
-                  <!-- Tab panes -->
-                  <div class="tab-content">
-                    <div id="description_{{event.id}}" class="container tab-pane active"><br>
-                      <p>{{ event.description }}</p>
-                    </div>
-                    <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.rules }}</p>
-                    </div>
-                    <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.organizers }}</p>
-                    </div>
-                    <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.winners }}</p>
-                    </div>
+                <div class="tab-content">
+                  {% autoescape off %}
+                  <div id="description_{{event.id}}" class="container tab-pane active"><br>
+                    <p>{{ event.description }}</p>
                   </div>
-                </div>
+                  <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
+                    <p>{{ event.rules}}</p>
+                  </div>
+                  <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
+                    <p>{{ event.organizers }}</p>
+                  </div>
+                  <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
+                    <p>{{ event.winners }}</p>
+                  </div>
+                  {% endautoescape %}
 
-                <!-- ===== -->
+                </div>
               </div>
               <div class="modal-footer">
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {% if user.is_authenticated %}
-                {% if event.title in reg_events %}
+                {% if not user.is_staff %}
+                {% if event.title in reg_events_titles %}
                 <button type="button" class="btn btn-success" disabled="true">Registered!</button>
                 {% elif event.no_of_participants > 1 %}
                 <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                  data-target="#addingTeam">Add & Register</button>
-
+                  data-target="#addteam_{{event.id}}">Team Register</button>
                 {% else %}
-                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Do Register</a>
+                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
                 {% endif %}
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-warning">Login Required</a>
                 {% endif %}
               </div>
             </div>
@@ -361,7 +357,7 @@
 
 
         <!-- Adding-Team Modal -->
-        <div class="modal fade modal-auto" id="addingTeam" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
               <div class="modal-header">
@@ -375,15 +371,21 @@
               <div class="modal-body">
                 <form method="POST">
                   {% csrf_token %}
-                  {% for i in "x"|rjust:event.no_of_participants %}
+                  {% with ''|center:event.no_of_participants as range %}
+                  {% for i in range %}
                   <div class="form-group">
                     <label>Team Member-{{forloop.counter}}</label>
-                    <input type="text" name="user_{{forloop.counter}}" class="form-control" placeholder="Enter ID No">
+                    {% if forloop.counter == 1 %}
+                    <input type="text" name="user_{{forloop.counter}}" class="form-control" value="{{user.username}}"
+                      disabled>
+                    {% else %}
+                    <input type="text" name="user_{{forloop.counter}}" class="form-control"
+                      placeholder="Enter ID No-{{forloop.counter}}">
+                    {% endif %}
                   </div>
-
                   {% endfor %}
+                  {% endwith %}
 
-                </form>
               </div>
 
               <div class="modal-footer">
@@ -391,6 +393,7 @@
                   class="btn btn-primary">Register</a>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
+              </form>
             </div>
           </div>
         </div>
@@ -404,9 +407,7 @@
         <a id="more-btn" href="{% url 'allEvents' %}" class="btn btn-sm" style="border-radius: 50%;">
           <i class="fa fa-chevron-down"></i></a>
       </div>
-
     </div>
-
   </section>
   {% endif %}
 

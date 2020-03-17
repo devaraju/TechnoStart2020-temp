@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'e4f*#1)5&p=!@1s5s5=o&!krqi%)ur%fqe#_wbz^5v@zr*yzob'
+SECRET_KEY = os.environ.get('TS2020_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -83,8 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'technostart2020',
-        'USER': os.environ.get('ts2020_db_user'),
-        'PASSWORD': os.environ.get('ts2020_db_password'),
+        'USER': os.environ.get('TS2020_DB_USER'),
+        'PASSWORD': os.environ.get('TS2020_DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': ''
     }

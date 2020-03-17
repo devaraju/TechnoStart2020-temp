@@ -11,10 +11,10 @@ from users.forms import CustomAuthenticationForm
 def home(request):
     schedule = getSchedule()
     notices = Notice.objects.all().order_by('-date_created')[:5]
-    reg_events_data = reg_event_titles = profile_data = []
+    reg_events_data = reg_events_titles = profile_data = []
     user = request.user
     if user.is_authenticated:
-        reg_events_data, reg_event_titles = getRegEventsIds(user)
+        reg_events_data, reg_events_titles = getRegEventsIds(user)
         profile_data = Organizer.objects.get(idno=request.user.username) if user.is_staff else Student.objects.get(idno=request.user.username)
     
     all_events = Event.objects.all()
@@ -29,7 +29,7 @@ def home(request):
         'tech_events':tech_events,
         'non_tech_events':non_tech_events,
         'reg_events_data':reg_events_data,
-        'reg_event_titles':reg_event_titles,
+        'reg_events_titles':reg_events_titles,
         'profile_data':profile_data,
         }
 

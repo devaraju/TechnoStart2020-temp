@@ -4,22 +4,33 @@
 
 {% block content %}
 
-<section id="portfolio">
+<section id="portfolio" style="min-height: 100%;">
+  <div class="p-3">
+  <div class="row">
+    <!-- <div class="col-2"></div> -->
+    <div class="col-lg-12">
+      <ul id="portfolio-flters">
+        {% if isSearchActive %}
+        <li class="d-none d-lg-block" style="float: left;background-color: #18d26e;color: whitesmoke;"><strong>Search Results..,</strong></li>
+        {% endif %}
+        <li data-filter="*" class="filter-active">All</li>
+        <li data-filter=".filter-app">Technical</li>
+        <li data-filter=".filter-web">Non-Technical</li>
+        <li class="d-none d-lg-block" style="background-color: transparent; float: right;">
+          <form method="POST" style="padding: 0; margin: 0;">
+            {% csrf_token %}
+            <input name="title" type="text" placeholder="Keyword" required />
+            <input type="submit" class="btn btn-sm btn-success" value="Search" />
+            <a href="{% url 'allEvents' %}" class="btn btn-sm btn-danger">Remove</a>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
   <div class="container">
     {% if all_events %}
-    <!-- <header class="section-header">
-        <h3 class="section-title" style="color: #18d26e;">Events</h3>
-      </header> -->
 
-    <div class="row">
-      <div class="col-lg-12">
-        <ul id="portfolio-flters">
-          <li data-filter="*" class="filter-active">All</li>
-          <li data-filter=".filter-app">Technical</li>
-          <li data-filter=".filter-web">Non-Technical</li>
-        </ul>
-      </div>
-    </div>
     <div class="row portfolio-container">
       {% for event in all_events %}
       {% if event.category == "technical" %}
@@ -38,12 +49,11 @@
             </div>
           </div>
         </div>
-        <!-- #event_desc Model-->
 
-        <!-- Modal -->
-        <div class="modal fade" id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        <!-- Event Details Modal -->
+        <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
           aria-hidden="true">
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
@@ -68,12 +78,12 @@
                 </ul>
 
                 <div class="tab-content">
+                  {% autoescape off %}
                   <div id="description_{{event.id}}" class="container tab-pane active"><br>
                     <p>{{ event.description }}</p>
                   </div>
                   <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
                     <p>{{ event.rules}}</p>
-                    <!-- <p>testing</p> -->
                   </div>
                   <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
                     <p>{{ event.organizers }}</p>
@@ -81,27 +91,28 @@
                   <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
                     <p>{{ event.winners }}</p>
                   </div>
+                  {% endautoescape %}
+
                 </div>
               </div>
               <div class="modal-footer">
 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                {% if user.is_staff %}
-                  {% if event.title in reg_events_titles %}
-                    <button type="button" class="btn btn-success" disabled="true">Registered!</button>
-                  {% elif event.no_of_participants > 1 %}
-                    <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addteam_{{event.id}}">Team Register</button>
-
-                  {% else %}
-                    <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
-                  {% endif %}
+                {% if not user.is_staff %}
+                {% if event.title in reg_events_titles %}
+                <button type="button" class="btn btn-success" disabled="true">Registered!</button>
+                {% elif event.no_of_participants > 1 %}
+                <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                  data-target="#addteam_{{event.id}}">Team Register</button>
+                {% else %}
+                <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
+                {% endif %}
                 {% endif %}
               </div>
             </div>
           </div>
         </div>
-        <!-- #end event model -->
+        <!-- End Event Details Modal -->
 
         <!-- Adding-Team Modal -->
         <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -154,6 +165,6 @@
 
       </div>
     </div>
-
+  </div>
 </section>
 {% endblock content%}

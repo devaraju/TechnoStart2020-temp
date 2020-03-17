@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 from datetime import datetime
 
+from users.models import Organizer
+
 event_types = [('technical','TECHNICAL'), ('non-technical','NON-TECHNICAL')]
 class Event(models.Model):
     title = models.CharField(max_length=50)
@@ -14,6 +16,7 @@ class Event(models.Model):
     no_of_participants = models.IntegerField()
     organizers = models.TextField()
     winners = models.TextField(blank=True)
+    uploaded_by = models.ForeignKey(Organizer, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f'{self.title}'
@@ -31,6 +34,7 @@ class EventSchedule(models.Model):
     datePlanned = models.DateField()
     start_time = models.TimeField()
     end_time = models.TimeField()
+    uploaded_by = models.ForeignKey(Organizer, on_delete=models.DO_NOTHING)
 
     class Meta:
         unique_together = (("event", "round_no"),)
