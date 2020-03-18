@@ -81,12 +81,12 @@ WSGI_APPLICATION = 'TechnoStart2020.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'technostart2020',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('TS2020_DB_NAME'),
         'USER': os.environ.get('TS2020_DB_USER'),
         'PASSWORD': os.environ.get('TS2020_DB_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': ''
+        'HOST': os.environ.get('TS2020_DB_HOST'),
+        'PORT': os.environ.get('TS2020_DB_PORT'),
     }
 }
 
