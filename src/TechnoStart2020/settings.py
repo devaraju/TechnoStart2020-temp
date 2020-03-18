@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('TS2020_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('TS2020_DEBUG')
 
-ALLOWED_HOSTS = ['localhost', '192.168.43.154',]
+ALLOWED_HOSTS = [os.environ.get('TS2020_ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'events.apps.EventsConfig',
     'notices.apps.NoticesConfig',
     'crispy_forms',
-
 ]
 
 MIDDLEWARE = [
