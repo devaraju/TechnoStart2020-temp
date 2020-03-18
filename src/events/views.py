@@ -16,6 +16,8 @@ def eventRegister(request, eventId):
         reg.save()
     except:
         reg = EventRegistration.objects.create(idnos=user.username, reg_events=eventName)
+    messages.success(request, f'{user.username} Event registration successful.')
+
     return redirect('home')
 
 @login_required
@@ -47,6 +49,10 @@ def eventRegisterMany(request, users_cnt, eventId):
         except:
             reg = EventRegistration.objects.create(idnos=usernames, reg_events=eventName)
             # reg.save()
+        messages.success(request, f'{user.username} Event registration successful.')
+    else:
+        messages.error(request, f'{user.username} Invalid details.')
+
     return redirect('home')
 
 

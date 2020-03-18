@@ -13,12 +13,17 @@ def organizerRegister(request):
 
     if request.method == 'POST':
         form = OrgRegisterForm(request.POST)
-        if user_form.is_valid():
-            username = user_form.cleaned_data.get('username')
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            form.save()
+            messages.success(request, f'{username} Account has been created!')
             return redirect('login')
-    else:
-        form = OrgRegisterForm()
-        return render(request, 'users/org_register.html', { 'form':form})
+        else:
+            messages.error(request, f'Entered details are Invalid!')
+            return redirect('org_register')
+
+    form = OrgRegisterForm()
+    return render(request, 'users/org_register.html', { 'form':form})
 
 @login_required
 def newUserRegistration(request):
@@ -48,6 +53,9 @@ def profileUpdate(request):
             form.save()
             messages.success(request, f'Profile has been updated!')
             return redirect('home')
+        else:
+            messages.error(request, f'Update request was not acceptable')
+            redirect('profile_update')
     else:
         form = OrganizerUpdateForm(instance=request.user.organizer) if user.is_staff else StudentUpdateForm(instance=request.user.student)
 
