@@ -1,7 +1,5 @@
 *.pyc
 *.sqlite3
-.vscode/
-myvenv/
 migrations/
 __pycache__/
 global-statics/
