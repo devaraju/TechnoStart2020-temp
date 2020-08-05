@@ -1,199 +1,433 @@
-{% load static %}
-{% load crispy_forms_tags %}
+{% load static %} {% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <link
+            rel="shortcut icon"
+            href="{% static 'images/logo.ico' %}"
+            type="image/x-icon"
+        />
+        <!-- Bootstrap CSS -->
+        <!-- <link rel="stylesheet" href="./static/css/bootstrap.min.css" /> -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+            integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX"
+            crossorigin="anonymous"
+        />
 
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+        <!-- Semantic-ui CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
+        />
 
-<head>
-    <meta charset="utf-8">
-    <title>TechnoStart-2020</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+        <!-- CUSTOM CSS -->
+        <link rel="stylesheet" href="{% static 'css/mystyle.css' %}" />
 
-    <!-- Favicons -->
-    <link href="{% static 'images/technostart.ico' %}" rel="icon">
+        <title>TS 2020</title>
+    </head>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700"
-        rel="stylesheet">
+    <body>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <h4 class="ui header" style="color: whitesmoke;">
+                    <img
+                        class="ui circular image"
+                        src="{% static 'images/brand-logo.png' %}"
+                        alt=""
+                        loading="lazy"
+                    />
+                    <div class="content" style="font-style: italic;">
+                        TechnoStart-2020
+                    </div>
+                </h4>
+            </a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <!-- Bootstrap CSS File -->
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-
-    <!-- Libraries CSS Files -->
-    <link href="{% static 'lib/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/ionicons/css/ionicons.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
-
-    <!-- Main Stylesheet File -->
-    <link href="{% static 'css/style.css' %}" rel="stylesheet">
-</head>
-
-
-<body>
-
-    {% block header_content %}{% endblock header_content%}
-
-    <!--==========================
-    Footer
-  ============================-->
-
-    <footer id="footer" style="margin-top: 16% !important;">
-
-        <div class="container">
-            <div class="copyright">
-                &copy; Copyright <strong>CSE dept</strong>. All Rights Reserved
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'home' %}#home"
+                            ><i class="home icon"></i>Home
+                            <span class="sr-only">(current)</span></a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#events"
+                            ><i class="bullhorn icon"></i>Events</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#updates"
+                            ><i class="bell icon"></i>Updates</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#schedule"
+                            ><i class="calendar alternate icon"></i>Schedule</a
+                        >
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#contact"
+                            ><i class="phone volume icon"></i>Contact</a
+                        >
+                    </li> -->
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}#test"
+                            ><i class="edit icon"></i>Test</a
+                        >
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a
+                            class="nav-link dropdown-toggle"
+                            href="#"
+                            id="navbarDropdown"
+                            role="button"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                        >
+                            {{ user|upper }}
+                        </a>
+                        <div
+                            class="dropdown-menu"
+                            aria-labelledby="navbarDropdown"
+                        >
+                            <a
+                                class="dropdown-item"
+                                href="#"
+                                data-toggle="modal"
+                                data-target="#profile"
+                                ><i class="user icon"></i>Profile</a
+                            >
+                            <div class="dropdown-divider"></div>
+                            <a
+                                class="dropdown-item"
+                                href="#"
+                                data-toggle="modal"
+                                data-target="#logoutModal"
+                                ><i class="edit lock"></i>Logout</a
+                            >
+                        </div>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login'%}"
+                            ><i class="unlock icon"></i>Login</a
+                        >
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
-            <div class="credits">
-                Designed by <a href="#">Team TechnoStart2020</a>
-            </div>
-        </div>
-    </footer>
+        </nav>
 
-    <a href="#header" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-    <!-- Uncomment below i you want to use a preloader -->
-    <!-- <div id="preloader"></div> -->
+        {% block content %}{% endblock content%}
 
-    <!-- Bootstrap JS File -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <!-- <script src="{% static 'js/jquery-3.4.1.slim.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
+        <!-- MODALS -->
+        <!-- Profile Model-->
+        {% if user.is_authenticated %}
+        <div
+            class="modal fade modal-auto"
+            id="profile"
+            tabindex="-1"
+            role="dialog"
+            aria-hidden="true"
+        >
+            <div
+                class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+                role="document"
+            >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5
+                            class="modal-title text-center"
+                            id="exampleModalCenterTitle"
+                        >
+                            {{ user.username|upper }}
+                        </h5>
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-pills justify-content-center">
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link active"
+                                        data-toggle="tab"
+                                        href="#eventsdata"
+                                        >Registered Events</a
+                                    >
+                                </li>
+                                <li class="nav-item">
+                                    <a
+                                        class="nav-link"
+                                        data-toggle="tab"
+                                        href="#profiledata"
+                                        >Profile</a
+                                    >
+                                </li>
+                            </ul>
 
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div
+                                    id="eventsdata"
+                                    class="container tab-pane active my-3"
+                                >
+                                    <table class="table table-striped p-0 m-0">
+                                        <thead
+                                            class="bg-dark"
+                                            style="color: whitesmoke;"
+                                        >
+                                            <tr>
+                                                <th
+                                                    scope="col"
+                                                    style="width: 10%;"
+                                                >
+                                                    S.No
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="width: 20%;"
+                                                >
+                                                    Reg. IDs
+                                                </th>
+                                                <th
+                                                    scope="col"
+                                                    style="width: 70%;"
+                                                >
+                                                    Reg. Events
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for event in reg_events_data %}
+                                            <tr>
+                                                <td>{{forloop.counter}}</td>
+                                                <td>{{event.idnos}}</td>
+                                                <td>
+                                                    <p>{{event.reg_events}}</p>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
 
-    <!-- User defined JS-->
-    <script src="{% static 'lib/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'lib/jquery/jquery-migrate.min.js' %}"></script>
-    <script src="{% static 'lib/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
-    <script src="{% static 'lib/superfish/hoverIntent.js' %}"></script>
-    <script src="{% static 'lib/superfish/superfish.min.js' %}"></script>
-    <script src="{% static 'lib/wow/wow.min.js' %}"></script>
-    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
-    <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
-    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'lib/isotope/isotope.pkgd.min.js' %}"></script>
-    <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
-    <script src="{% static 'lib/touchSwipe/jquery.touchSwipe.min.js' %}"></script>
-
-
-    <!-- Template Main Javascript File -->
-    <script src="{% static 'js/main.js' %}"></script>
-
-    <!-- Profile Model-->
-    {% if user.is_authenticated %}
-    <div class="modal fade modal-auto" id="profile" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ user.username|upper }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="container">
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-pills justify-content-center">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#eventsdata">Registered Events</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#profiledata">Profile</a>
-                            </li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div id="eventsdata" class="container tab-pane active my-3">
-                                <table class="table table-striped p-0 m-0">
-                                    <thead class="bg-dark" style="color: whitesmoke;">
-                                        <tr>
-                                            <th scope="col" style="width: 10%;">S.No</th>
-                                            <th scope="col" style="width: 20%;">Reg. IDs</th>
-                                            <th scope="col" style="width: 70%;">Reg. Events</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for event in reg_events_data %}
-                                        <tr>
-                                            <td>{{forloop.counter}}</td>
-                                            <td>{{event.idnos}}</td>
-                                            <td>
-                                                <p>{{event.reg_events}}</p>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-
-                            </div>
-
-                            <div id="profiledata" style="color: black;" class="container tab-pane fade my-3">
-                                <center>
-                                <table class="table table-striped" style="width: 60%;">
-                                    <tbody>
-                                        <tr>
-                                            <td id="left_cell">University ID</td>
-                                            <td id="rifht_cell"><strong>{{ profile_data.idno }}</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td id="left_cell">Name</td>
-                                            <td id="rifht_cell"><strong>{{ profile_data.name|upper }}</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td id="left_cell">Section</td>
-                                            <td id="rifht_cell"><strong>{{ profile_data.section|upper }}</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td id="left_cell">Batch</td>
-                                            <td id="rifht_cell"><strong>{{ profile_data.batch|upper }}</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </center>
+                                <div
+                                    id="profiledata"
+                                    style="color: black;"
+                                    class="container tab-pane fade my-3"
+                                >
+                                    <center>
+                                        <table
+                                            class="table table-striped"
+                                            style="width: 60%;"
+                                        >
+                                            <tbody>
+                                                <tr>
+                                                    <td id="left_cell">
+                                                        University ID
+                                                    </td>
+                                                    <td id="rifht_cell">
+                                                        <strong
+                                                            >{{
+                                                            profile_data.idno
+                                                            }}</strong
+                                                        >
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="left_cell">Name</td>
+                                                    <td id="rifht_cell">
+                                                        <strong
+                                                            >{{
+                                                            profile_data.name|upper
+                                                            }}</strong
+                                                        >
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="left_cell">
+                                                        Section
+                                                    </td>
+                                                    <td id="rifht_cell">
+                                                        <strong
+                                                            >{{
+                                                            profile_data.section|upper
+                                                            }}</strong
+                                                        >
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td id="left_cell">
+                                                        Batch
+                                                    </td>
+                                                    <td id="rifht_cell">
+                                                        <strong
+                                                            >{{
+                                                            profile_data.batch|upper
+                                                            }}</strong
+                                                        >
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-    <!-- end profile model -->
-
-    <!-- Logout Modal-->
-    {% if user.is_authenticated %}
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-dismiss="modal"
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    {% endif %}
-    <!-- end logout model -->
+        {% endif %}
+        <!-- end profile model -->
 
-</body>
+        <!-- Logout Modal-->
+        {% if user.is_authenticated %}
+        <div
+            class="modal fade"
+            id="logoutModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+        >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            Ready to Leave?
+                        </h5>
+                        <button
+                            class="close"
+                            type="button"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Select "Logout" below if you are ready to end your
+                        current session.
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            class="btn btn-secondary"
+                            type="button"
+                            data-dismiss="modal"
+                        >
+                            Cancel
+                        </button>
+                        <a class="btn btn-danger" href="{% url 'logout' %}"
+                            >Logout</a
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- end logout model -->
+        <!-- END MODALS -->
 
+        <!-- Footer -->
+        <!-- <style>
+            footer {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+            }
+        </style> -->
+
+        <footer class="font-small bg-dark p-3 mt-3">
+            <div class="container text-center">
+                <div class="social-media icons p-3">
+                    <a href="{% url 'home' %}#home" style="float: right;">
+                        <i
+                            class="circular inverted teal large angle double up icon"
+                        ></i>
+                    </a>
+                    <a href="#">
+                        <!-- <i class="circular inverted blue large instagram icon"></i> -->
+                        <i class="red big instagram icon"></i>
+                    </a>
+                    <a href="#"><i class="blue big facebook icon"></i></a>
+                    <a href="#"><i class="blue big twitter icon"></i></a>
+                </div>
+
+                <div class="copyright">
+                    &copy; Copyright <strong>CSE dept</strong>. All Rights
+                    Reserved
+                </div>
+                <div class="credits">
+                    Designed by
+                    <a href="" style="text-decoration: none; color: #18d26e;"
+                        >Team TechnoStart2020</a
+                    >
+                </div>
+            </div>
+        </footer>
+        <!-- Footer -->
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+        <!-- <script src="./static/js/jquery-3.5.1.slim.min.js"></script>
+        <script src="./static/js/popper.min.js"></script>
+        <script src="./static/js/bootstrap.min.js"></script> -->
+
+        <script
+            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
+            integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
+            crossorigin="anonymous"
+        ></script>
+    </body>
 </html>

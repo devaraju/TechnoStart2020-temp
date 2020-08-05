@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('TS2020_SECRET_KEY')
-
+# SECRET_KEY = os.environ.get('TS2020_SECRET_KEY')
+SECRET_KEY = 'e4f*#1)5&p=!@1s5s5=o&!krqi%)ur%fqe#_wbz^5v@zr*yzob'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('TS2020_DEBUG')
+DEBUG = 1
 
-ALLOWED_HOSTS = [os.environ.get('TS2020_ALLOWED_HOSTS')]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -79,13 +79,17 @@ WSGI_APPLICATION = 'TechnoStart2020.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': os.environ.get('TS2020_DB_NAME'),
+    #     'USER': os.environ.get('TS2020_DB_USER'),
+    #     'PASSWORD': os.environ.get('TS2020_DB_PASSWORD'),
+    #     'HOST': os.environ.get('TS2020_DB_HOST'),
+    #     'PORT': os.environ.get('TS2020_DB_PORT'),
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('TS2020_DB_NAME'),
-        'USER': os.environ.get('TS2020_DB_USER'),
-        'PASSWORD': os.environ.get('TS2020_DB_PASSWORD'),
-        'HOST': os.environ.get('TS2020_DB_HOST'),
-        'PORT': os.environ.get('TS2020_DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'ts2020_db',
     }
 }
 

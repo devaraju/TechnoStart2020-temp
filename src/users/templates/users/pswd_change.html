@@ -1,47 +1,59 @@
-{% extends 'base_new.html' %}
-{% load crispy_forms_tags %}
-
-{% block content %}
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}<style>
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+    div#single-page {
+        padding-top: 90px;
+    }
+</style>
 <section id="portfolio">
-
     <div class="container pt-20">
         <!-- Outer Row  -->
         <div class="row justify-content-center">
-
             <div class="col-xl-6 col-lg-12 col-md-9">
-                <div class="card shadow-lg border-0" style="background-color: rgba(255, 255, 255, 1);">
+                <div
+                    class="card shadow-lg border-0"
+                    style="background-color: rgba(255, 255, 255, 1);"
+                >
                     <div class="card-body">
                         <!-- Nested Row within Card Body -->
                         <div class="row justify-content-center">
-                            <div class="py-1 ">
-                                <h1 class="h4 text-gray-900 mb-4">Password Change Form</h1>
-                                <hr>
+                            <div class="py-1">
+                                <h1 class="h4 text-gray-900 mb-4">
+                                    Password Change Form
+                                </h1>
+                                <hr />
                             </div>
                             <div class="col-lg-10 mx-auto">
                                 <div>
-
                                     <form method="POST">
-                                        {% csrf_token %}
-                                        {{ form|crispy }}
+                                        {% csrf_token %} {{ form|crispy }}
 
                                         <div class="form-group text-center">
-                                            <input type="submit" value="Change Password"
-                                                class="btn btn-outline-success" />
+                                            <input
+                                                type="submit"
+                                                value="Change Password"
+                                                class="btn btn-outline-success"
+                                            />
                                         </div>
                                     </form>
-                                    <hr>
+                                    <hr />
                                     <div class="text-center">
-                                        <a class="small" href="{% url 'login' %}">No need to Change password?</a>
+                                        <a
+                                            class="small"
+                                            href="{% url 'login' %}"
+                                            >No need to Change password?</a
+                                        >
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
 </section>
 {% endblock content %}

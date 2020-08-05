@@ -1,66 +1,29 @@
-{% extends 'base_new.html' %}
-{% load crispy_forms_tags %}
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+<style>
+    footer {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+    div#single-page {
+        padding-top: 90px;
+    }
+</style>
 
-{% block content %}
-<section id="portfolio">
-    <div class="container pt-20">
-        <!-- Outer Row  -->
-        <div class="row">
-            <div class="col-md-6 mx-auto">
-                {% if messages %}
-                {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <strong>{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Error{% else %}{{ message.tags|title }}{% endif %}!</strong>
-                    {{ message }}
-                </div>
-                {% endfor %}
-                {% endif %}
+<div id="single-page" class="ui container" style="width: 40%;">
+    <div class="ui segment">
+        <form method="POST" class="ui form">
+            {% csrf_token %}
+            <div class="field">
+                <label>Username</label>
+                {{form.username|as_crispy_field}}
             </div>
-        </div>
-        <div class="row justify-content-center">
-
-            <div class="col-xl-5 col-lg-12 col-md-9">
-
-                <div class="card shadow-lg border-0" style="background-color: rgba(255, 255, 255, 1);">
-                    <div class="card-body">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-
-                            <div class="col-lg-9 mx-auto">
-                                <div class="py-5 text-center">
-                                    <div>
-                                        <h2 class="h5 text-gray-900">Welcome to TechnoStart 2020!</h2>
-                                        <hr>
-                                    </div>
-                                    <div>
-                                        <form method="POST">
-                                            {% csrf_token %}
-                                            {{ form|crispy }}
-
-                                            <div class="form-group">
-                                                <input type="submit" class="btn btn-outline-success" value="Login">
-                                            </div>
-                                    </div>
-                                    </form>
-
-                                    <!-- <hr>
-                                <div class="text-center" style="display: none;">
-                                    <a class="small" href="#">Forgot Password?</a>
-                                </div>
-                                <div class="text-center" style="display: none;">
-                                    <a class="small" href="#">Create an Account!</a>
-                                </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="field">
+                <label>Password</label>
+                {{form.password|as_crispy_field}}
             </div>
-        </div>
-
+            <button class="ui button" type="submit">Submit</button>
+        </form>
     </div>
-</section>
+</div>
 {% endblock content %}

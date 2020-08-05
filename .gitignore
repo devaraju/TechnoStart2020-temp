@@ -3,3 +3,10 @@
 migrations/
 __pycache__/
 global-statics/
+
+ts2020_db
+
+myvenv/
+.vscode/
+
+media/

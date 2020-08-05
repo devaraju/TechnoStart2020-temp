@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from .models import Event, EventRegistration
 from users.models import Student, Organizer
@@ -30,7 +31,7 @@ def eventRegisterMany(request, users_cnt, eventId):
         for cnt in range(2,users_cnt+1):
             try:
                 uname = request.POST.get('user_'+str(cnt),'')
-                if uname is not '':
+                if uname != '':
                     usr = User.objects.get(username=uname)
                     usernames.append(uname)
             except:
