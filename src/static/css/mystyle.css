@@ -49,11 +49,12 @@ body {
     transition: 0.5s;
     margin: 10px;
     color: #fff;
-    background: #18d26e;
+    background: teal;
+    /* background: #18d26e; */
 }
 .get-started-btn:hover {
     background: #fff;
-    color: #18d26e;
+    color: teal;
 }
 
 .social-media i:hover {
@@ -78,4 +79,14 @@ div#updates,
 div#schedule {
     padding-top: 80px;
     margin: auto;
+}
+
+.nav-pills li a {
+    background: teal;
+    color: whitesmoke;
+}
+
+.btn-teal {
+    background: teal;
+    color: whitesmoke;
 }

@@ -45,24 +45,29 @@ crispy_forms_tags %} {% block content %}
                         <a>{{ event.category|upper }}</a>
                     </div>
                     <div class="description">
-                        {{ event.description|slice:":50" }}<a href="#" data-toggle="modal" data-target="#event_{{ event.id }}"
+                        {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;" data-target="#event_{{ event.id }}"
                             >read more</a
                         >
                     </div>
                 </div>
                 
-                  {% if not user.is_staff %}
-                    {% if event.title in reg_events_titles %}
-                      <div class="ui disabled bottom attached button">Registered
-                      <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
-                    {% elif event.no_of_participants > 1 %}
-                      <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                      data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
-                    {% else %}
-                      <div class="ui bottom attached button">
-                      <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"></a><i class="add icon"></i>Register
-                    {% endif %}
+                {% if not user.is_staff %}
+                {% if event.title in reg_events_titles and user.is_authenticated %}
+                  <div class="ui disabled bottom attached button">Registered
+                  <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
+                {% elif event.no_of_participants > 1 %}
+                  {% if user.is_authenticated %}
+                    <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                    data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
+                  {% else %}
+                  <div class="ui bottom attached button">
+                    <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
                   {% endif %}
+                {% else %}
+                  <div class="ui bottom attached button">
+                  <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
+                {% endif %}
+              {% endif %}
                   
                 </div>
             </div>
@@ -77,7 +82,7 @@ crispy_forms_tags %} {% block content %}
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body bg-dark" style="color:whitesmoke;">
+                <div class="modal-body">
                   <ul class="nav nav-pills justify-content-center">
                     <li class="nav-item">
                       <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
@@ -118,10 +123,10 @@ crispy_forms_tags %} {% block content %}
                   {% if event.title in reg_events_titles %}
                   <button type="button" class="btn btn-success" disabled="true">Registered!</button>
                   {% elif event.no_of_participants > 1 %}
-                  <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                  <button type="button" data-dismiss="modal" class="btn" style="background: teal;" data-toggle="modal"
                     data-target="#addteam_{{event.id}}">Team Register</button>
                   {% else %}
-                  <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
+                  <a href="{% url 'eventRegister' event.id %}" class="btn" style="background: teal;">Register</a>
                   {% endif %}
                   {% endif %}
                 </div>
@@ -165,7 +170,7 @@ crispy_forms_tags %} {% block content %}
 
                 <div class="modal-footer">
                   <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
-                    class="btn btn-primary">Register</a>
+                    class="btn" style="background-color: teal;">Register</a>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
                 </form>
@@ -185,134 +190,139 @@ crispy_forms_tags %} {% block content %}
                         <a>{{ event.category|upper }}</a>
                     </div>
                     <div class="description">
-                        {{ event.description|slice:":50" }}<a href="#" data-toggle="modal" data-target="#event_{{ event.id }}"
-                            >read more</a
-                        >
+                        {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;" data-target="#event_{{ event.id }}"
+                        >read more</a
+                    >
                     </div>
                 </div>
                 
-                  {% if not user.is_staff %}
-                    {% if event.title in reg_events_titles %}
-                      <div class="ui disabled bottom attached button">Registered
-                      <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
-                    {% elif event.no_of_participants > 1 %}
-                      <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                      data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
-                    {% else %}
-                      <div class="ui bottom attached button">
-                      <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"></a><i class="add icon"></i>Register
-                    {% endif %}
+                {% if not user.is_staff %}
+                {% if event.title in reg_events_titles and user.is_authenticated %}
+                  <div class="ui disabled bottom attached button">Registered
+                  <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
+                {% elif event.no_of_participants > 1 %}
+                  {% if user.is_authenticated %}
+                    <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                    data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
+                  {% else %}
+                  <div class="ui bottom attached button">
+                    <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
                   {% endif %}
+                {% else %}
+                  <div class="ui bottom attached button">
+                  <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
+                {% endif %}
+              {% endif %}
                   
                 </div>
             </div>
-            <!-- Event Details Modal -->
-            <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body bg-dark" style="color:whitesmoke;">
-                  <ul class="nav nav-pills justify-content-center">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
-                    </li>
-                  </ul>
-
-                  <div class="tab-content">
-                    {% autoescape off %}
-                    <div id="description_{{event.id}}" class="container tab-pane active"><br>
-                      <p>{{ event.description }}</p>
-                    </div>
-                    <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.rules}}</p>
-                    </div>
-                    <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.organizers }}</p>
-                    </div>
-                    <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.winners }}</p>
-                    </div>
-                    {% endautoescape %}
-
-                  </div>
-                </div>
-                <div class="modal-footer">
-
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  {% if not user.is_staff %}
-                  {% if event.title in reg_events_titles %}
-                  <button type="button" class="btn btn-success" disabled="true">Registered!</button>
-                  {% elif event.no_of_participants > 1 %}
-                  <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addteam_{{event.id}}">Team Register</button>
-                  {% else %}
-                  <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
-                  {% endif %}
-                  {% endif %}
-                </div>
-              </div>
-            </div>
-            </div>
-            <!-- End Event Details Modal -->
-
-            <!-- Adding-Team Modal -->
-            <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
-                    Registration </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-
-                <div class="modal-body">
-                  <form method="POST">
-                    {% csrf_token %}
-                    {% with ''|center:event.no_of_participants as range %}
-                    {% for i in range %}
-                    <div class="form-group">
-                      <label>Team Member-{{forloop.counter}}</label>
-                      {% if forloop.counter == 1 %}
-                      <input type="text" name="user_{{forloop.counter}}" class="form-control" value="{{user.username}}"
-                        disabled>
-                      {% else %}
-                      <input type="text" name="user_{{forloop.counter}}" class="form-control"
-                        placeholder="Enter ID No-{{forloop.counter}}">
-                      {% endif %}
-                    </div>
-
-                    {% endfor %}
-                    {% endwith %}
-
-                </div>
-
-                <div class="modal-footer">
-                  <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
-                    class="btn btn-primary">Register</a>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-                </form>
-              </div>
-            </div>
-            </div>
-            <!--End Adding-Team Modal -->
+                        <!-- Event Details Modal -->
+                        <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <ul class="nav nav-pills justify-content-center">
+                                <li class="nav-item">
+                                  <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
+                                </li>
+                              </ul>
+            
+                              <div class="tab-content">
+                                {% autoescape off %}
+                                <div id="description_{{event.id}}" class="container tab-pane active"><br>
+                                  <p>{{ event.description }}</p>
+                                </div>
+                                <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
+                                  <p>{{ event.rules}}</p>
+                                </div>
+                                <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
+                                  <p>{{ event.organizers }}</p>
+                                </div>
+                                <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
+                                  <p>{{ event.winners }}</p>
+                                </div>
+                                {% endautoescape %}
+            
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+            
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              {% if not user.is_staff %}
+                              {% if event.title in reg_events_titles %}
+                              <button type="button" class="btn btn-teal" disabled="true">Registered!</button>
+                              {% elif event.no_of_participants > 1 %}
+                              <button type="button" data-dismiss="modal" class="btn btn-teal" data-toggle="modal"
+                                data-target="#addteam_{{event.id}}">Team Register</button>
+                              {% else %}
+                              <a href="{% url 'eventRegister' event.id %}" class="btn btn-teal" >Register</a>
+                              {% endif %}
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                        <!-- End Event Details Modal -->
+            
+                        <!-- Adding-Team Modal -->
+                        <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
+                                Registration </h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+            
+                            <div class="modal-body">
+                              <form method="POST">
+                                {% csrf_token %}
+                                {% with ''|center:event.no_of_participants as range %}
+                                {% for i in range %}
+                                <div class="form-group">
+                                  <label>Team Member-{{forloop.counter}}</label>
+                                  {% if forloop.counter == 1 %}
+                                  <input type="text" name="user_{{forloop.counter}}" class="form-control" value="{{user.username}}"
+                                    disabled>
+                                  {% else %}
+                                  <input type="text" name="user_{{forloop.counter}}" class="form-control"
+                                    placeholder="Enter ID No-{{forloop.counter}}">
+                                  {% endif %}
+                                </div>
+            
+                                {% endfor %}
+                                {% endwith %}
+            
+                            </div>
+            
+                            <div class="modal-footer">
+                              <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
+                                class="btn btn-teal">Register</a>
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                        </div>
+                        <!--End Adding-Team Modal -->
             {% endfor %} 
 
         </div>

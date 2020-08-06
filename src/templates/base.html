@@ -15,7 +15,7 @@
             type="image/x-icon"
         />
         <!-- Bootstrap CSS -->
-        <!-- <link rel="stylesheet" href="./static/css/bootstrap.min.css" /> -->
+        <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" /> -->
         <link
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
@@ -36,7 +36,10 @@
     </head>
 
     <body>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <nav
+            class="navbar fixed-top navbar-expand-lg navbar-dark"
+            style="background: teal;"
+        >
             <a class="navbar-brand" href="{% url 'home' %}">
                 <h4 class="ui header" style="color: whitesmoke;">
                     <img
@@ -64,7 +67,7 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}#home"
                             ><i class="home icon"></i>Home
                             <span class="sr-only">(current)</span></a
@@ -112,11 +115,14 @@
                             class="dropdown-menu"
                             aria-labelledby="navbarDropdown"
                         >
-                            <a
+                            <!-- <a
                                 class="dropdown-item"
                                 href="#"
                                 data-toggle="modal"
                                 data-target="#profile"
+                                ><i class="user icon"></i>Profile</a
+                            > -->
+                            <a href="#profile"
                                 ><i class="user icon"></i>Profile</a
                             >
                             <div class="dropdown-divider"></div>
@@ -377,7 +383,7 @@
             }
         </style> -->
 
-        <footer class="font-small bg-dark p-3 mt-3">
+        <footer class="font-small p-3 mt-3 bg-dark">
             <div class="container text-center">
                 <div class="social-media icons p-3">
                     <a href="{% url 'home' %}#home" style="float: right;">
@@ -385,26 +391,38 @@
                             class="circular inverted teal large angle double up icon"
                         ></i>
                     </a>
-                    <a href="#">
+                    <a
+                        href="https://www.instagram.com/_d3varaj_/"
+                        target="_blank"
+                    >
                         <!-- <i class="circular inverted blue large instagram icon"></i> -->
                         <i class="red big instagram icon"></i>
                     </a>
-                    <a href="#"><i class="blue big facebook icon"></i></a>
-                    <a href="#"><i class="blue big twitter icon"></i></a>
+                    <a href="#facebook"
+                        ><i class="blue big facebook icon"></i
+                    ></a>
+                    <a href="https://twitter.com/_deva_raj_" target="_blank"
+                        ><i class="blue big twitter icon"></i
+                    ></a>
                 </div>
 
                 <div class="copyright">
                     &copy; Copyright <strong>CSE dept</strong>. All Rights
                     Reserved
                 </div>
-                <div class="credits">
+                <div class="credits" data-tooltip="DeV@">
                     Designed by
-                    <a href="" style="text-decoration: none; color: #18d26e;"
-                        >Team TechnoStart2020</a
-                    >
+                    <!-- <a href="" style="text-decoration: none; color: teal;"
+                        >DeV@</a
+                    > -->
+                    <img
+                        src="{% static 'images/dev.jpg' %}"
+                        class="ui avatar image"
+                    />
                 </div>
             </div>
         </footer>
+
         <!-- Footer -->
 
         <!-- Optional JavaScript -->

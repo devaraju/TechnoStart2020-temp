@@ -37,24 +37,29 @@
             <a>{{ event.category|upper }}</a>
         </div>
         <div class="description">
-            {{ event.description|slice:":50" }}<a href="#" data-toggle="modal" data-target="#event_{{ event.id }}"
-                >read more</a
-            >
+            {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;" data-target="#event_{{ event.id }}"
+            >read more</a
+        >
         </div>
-    </div>
+      </div>
     
       {% if not user.is_staff %}
-        {% if event.title in reg_events_titles %}
-          <div class="ui disabled bottom attached button">Registered
-          <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
-        {% elif event.no_of_participants > 1 %}
-          <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-          data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
-        {% else %}
-          <div class="ui bottom attached button">
-          <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"></a><i class="add icon"></i>Register
-        {% endif %}
-      {% endif %}
+                {% if event.title in reg_events_titles and user.is_authenticated %}
+                  <div class="ui disabled bottom attached button">Registered
+                  <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
+                {% elif event.no_of_participants > 1 %}
+                  {% if user.is_authenticated %}
+                    <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+                    data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
+                  {% else %}
+                  <div class="ui bottom attached button">
+                    <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
+                  {% endif %}
+                {% else %}
+                  <div class="ui bottom attached button">
+                  <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
+                {% endif %}
+              {% endif %}
       
     </div>
 </div>
@@ -70,7 +75,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body bg-dark" style="color:whitesmoke;">
+          <div class="modal-body">
             <ul class="nav nav-pills justify-content-center">
               <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
@@ -105,17 +110,18 @@
             </div>
           </div>
           <div class="modal-footer">
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            {% if not user.is_staff %}
-            {% if event.title in reg_events_titles %}
-            <button type="button" class="btn btn-success" disabled="true">Registered!</button>
-            {% elif event.no_of_participants > 1 %}
-            <button type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-              data-target="#addteam_{{event.id}}">Team Register</button>
-            {% else %}
-            <a href="{% url 'eventRegister' event.id %}" class="btn btn-primary">Register</a>
-            {% endif %}
+            {% if user.is_authenticated %}
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              {% if not user.is_staff %}
+                {% if event.title in reg_events_titles %}
+                  <button type="button" class="btn btn-teal" disabled="true">Registered!</button>
+                {% elif event.no_of_participants > 1 %}
+                  <button type="button" data-dismiss="modal" class="btn btn-teal" data-toggle="modal"
+                    data-target="#addteam_{{event.id}}">Team Register</button>
+                {% else %}
+                  <a href="{% url 'eventRegister' event.id %}" class="btn btn-teal">Register</a>
+                {% endif %}
+              {% endif %}
             {% endif %}
           </div>
         </div>
@@ -158,7 +164,7 @@
 
           <div class="modal-footer">
             <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
-              class="btn btn-primary">Register</a>
+              class="btn" style="background: teal; color: whitesmoke;">Register</a>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
           </form>
