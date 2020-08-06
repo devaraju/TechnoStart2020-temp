@@ -20,6 +20,18 @@
       <!-- <i class="circular large bullhorn icon"></i> -->
       Events
   </h1>
+  <center>
+  {% if messages %}
+    {% for message in messages %}
+    <div class="ui floating compact {{ message.tags }} message">
+      <p>{{ message }}</p>
+    </div>
+
+    {% endfor %}
+  {% endif %}
+</center>
+   
+
   {% if all_events %}
   <div class="ui centered link raised cards my-3">
     {% for event in all_events %}

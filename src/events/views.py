@@ -19,13 +19,13 @@ def eventRegister(request, eventId):
         reg = EventRegistration.objects.create(idnos=user.username, reg_events=eventName)
     messages.success(request, f'{user.username} Event registration successful.')
 
-    return redirect('home')
+    return redirect('allEvents')
 
 @login_required
 def eventRegisterMany(request, users_cnt, eventId):
     usernames = []
     error = f'Great Effort buddy!'
-
+    user = request.user
     if request.user.username ==  request.POST.get('user_1',''):
         error = None
         for cnt in range(2,users_cnt+1):
@@ -35,7 +35,8 @@ def eventRegisterMany(request, users_cnt, eventId):
                     usr = User.objects.get(username=uname)
                     usernames.append(uname)
             except:
-                error = f'------>User-{uname} not listed in our DB.'
+                error = f'{uname} not listed in our DB.'
+                messages.error(request, error)
                 break
 
 
@@ -54,7 +55,7 @@ def eventRegisterMany(request, users_cnt, eventId):
     else:
         messages.error(request, f'{user.username} Invalid details.')
 
-    return redirect('home')
+    return redirect('allEvents')
 
 
 def allEvents(request):
