@@ -1,0 +1,1 @@
+web: gunicorn src.TechnoStart2020.wsgi --log-file -

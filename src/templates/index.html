@@ -2,227 +2,224 @@
 crispy_forms_tags %} {% block content %}
 
 <style>
-    footer {
-        position: relative;
-        bottom: 0;
-        width: 100%;
-    }
+  footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+  }
 </style>
 
 <div id="home">
-    <img class="div-bg-img" src="{% static 'images/bg2.jpg' %}" />
-    <div
-        class="img-text-center"
-        style="align-items: center; text-align: center;"
-    >
-        <h1
-            class="ui header"
-            style="color: whitesmoke; text-shadow: 2px 2px rgb(74, 75, 75);"
-        >
-            TechnoStart 2020
-        </h1>
-        <a class="get-started-btn" href="#events">
-            Get Started
-        </a>
-    </div>
+  <img class="div-bg-img" src="{% static 'images/bg2.jpg' %}" />
+  <div class="img-text-center" style="align-items: center; text-align: center;">
+    <h1 class="ui header" style="color: whitesmoke; text-shadow: 2px 2px rgb(74, 75, 75);">
+      TechnoStart 2020
+    </h1>
+    <a class="get-started-btn" href="#events">
+      Get Started
+    </a>
+  </div>
 </div>
 
-<div id="events" >
-    <div class="ui container">
-        <h1 class="ui center aligned icon header">
-            <!-- <i class="circular large bullhorn icon"></i> -->
-            Events
-        </h1>
-        <div class="ui centered link raised cards my-3">
-            {% for event in tech_events|slice:":3" %}
-            <div class="teal card">
-                <div class="ui fluid image">
-                    <img src="{{ event.cover.url }}" style="height: 180px;" />
-                </div>
-                <div class="content">
-                    <div class="header">{{ event.title|upper }}</div>
-                    <div class="meta">
-                        <a>{{ event.category|upper }}</a>
-                    </div>
-                    <div class="description">
-                        {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;" data-target="#event_{{ event.id }}"
-                            >read more</a
-                        >
-                    </div>
-                </div>
-                
-                {% if not user.is_staff %}
-                {% if event.title in reg_events_titles and user.is_authenticated %}
-                  <div class="ui disabled bottom attached button">Registered
-                  <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
-                {% elif event.no_of_participants > 1 %}
-                  {% if user.is_authenticated %}
-                    <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
-                  {% else %}
-                  <div class="ui bottom attached button">
-                    <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
-                  {% endif %}
-                {% else %}
-                  <div class="ui bottom attached button">
-                  <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
+<div id="events">
+  {% if tech_events or non_tech_events%}
+  <div class="ui container">
+    <h1 class="ui center aligned icon header">
+      <!-- <i class="circular large bullhorn icon"></i> -->
+      Events
+    </h1>
+    <div class="ui centered link raised cards my-3">
+      {% for event in tech_events|slice:":3" %}
+      <div class="teal card">
+        <div class="ui fluid image">
+          <img src="{{ event.cover.url }}" style="height: 180px;" />
+        </div>
+        <div class="content">
+          <div class="header">{{ event.title|upper }}</div>
+          <div class="meta">
+            <a>{{ event.category|upper }}</a>
+          </div>
+          <div class="description">
+            {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;"
+              data-target="#event_{{ event.id }}">read more</a>
+          </div>
+        </div>
+
+        {% if not user.is_staff %}
+        {% if event.title in reg_events_titles and user.is_authenticated %}
+        <div class="ui disabled bottom attached button">Registered
+          <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
+          {% elif event.no_of_participants > 1 %}
+          {% if user.is_authenticated %}
+          <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary"
+            data-toggle="modal" data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
+            {% else %}
+            <div class="ui bottom attached button">
+              <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
+              {% endif %}
+              {% else %}
+              <div class="ui bottom attached button">
+                <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i
+                    class="add icon"></i>Register</a>
                 {% endif %}
                 {% else %}
                 <div class="ui disabled bottom attached button"><i class="add icon"></i>Register
-              {% endif %}
-                  
-                </div>
-            </div>
-            <!-- Event Details Modal -->
-            <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <ul class="nav nav-pills justify-content-center">
-                    <li class="nav-item">
-                      <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
-                    </li>
-                  </ul>
-
-                  <div class="tab-content">
-                    {% autoescape off %}
-                    <div id="description_{{event.id}}" class="container tab-pane active"><br>
-                      <p>{{ event.description }}</p>
-                    </div>
-                    <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.rules}}</p>
-                    </div>
-                    <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.organizers }}</p>
-                    </div>
-                    <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
-                      <p>{{ event.winners }}</p>
-                    </div>
-                    {% endautoescape %}
-
-                  </div>
-                </div>
-                <div class="modal-footer">
-
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  {% if not user.is_staff %}
-                  {% if event.title in reg_events_titles %}
-                  <button type="button" class="btn btn-success" disabled="true">Registered!</button>
-                  {% elif event.no_of_participants > 1 %}
-                  <button type="button" data-dismiss="modal" class="btn" style="background: teal;" data-toggle="modal"
-                    data-target="#addteam_{{event.id}}">Team Register</button>
-                  {% else %}
-                  <a href="{% url 'eventRegister' event.id %}" class="btn" style="background: teal;">Register</a>
                   {% endif %}
-                  {% endif %}
+
                 </div>
               </div>
-            </div>
-            </div>
-            <!-- End Event Details Modal -->
+              <!-- Event Details Modal -->
+              <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">{{event.title|upper}}</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <ul class="nav nav-pills justify-content-center">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#organizers_{{event.id}}">Organizers</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
+                        </li>
+                      </ul>
 
-            <!-- Adding-Team Modal -->
-            <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
-                    Registration </h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
+                      <div class="tab-content">
+                        {% autoescape off %}
+                        <div id="description_{{event.id}}" class="container tab-pane active"><br>
+                          <p>{{ event.description }}</p>
+                        </div>
+                        <div id="rules_{{event.id}}" class="container tab-pane fade"><br>
+                          <p>{{ event.rules}}</p>
+                        </div>
+                        <div id="organizers_{{event.id}}" class="container tab-pane fade"><br>
+                          <p>{{ event.organizers }}</p>
+                        </div>
+                        <div id="winners_{{event.id}}" class="container tab-pane fade"><br>
+                          <p>{{ event.winners }}</p>
+                        </div>
+                        {% endautoescape %}
 
-                <div class="modal-body">
-                  <form method="POST">
-                    {% csrf_token %}
-                    {% with ''|center:event.no_of_participants as range %}
-                    {% for i in range %}
-                    <div class="form-group">
-                      <label>Team Member-{{forloop.counter}}</label>
-                      {% if forloop.counter == 1 %}
-                      <input type="text" name="user_{{forloop.counter}}" class="form-control" value="{{user.username}}"
-                        disabled>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      {% if not user.is_staff %}
+                      {% if event.title in reg_events_titles %}
+                      <button type="button" class="btn btn-success" disabled="true">Registered!</button>
+                      {% elif event.no_of_participants > 1 %}
+                      <button type="button" data-dismiss="modal" class="btn" style="background: teal;"
+                        data-toggle="modal" data-target="#addteam_{{event.id}}">Team Register</button>
                       {% else %}
-                      <input type="text" name="user_{{forloop.counter}}" class="form-control"
-                        placeholder="Enter ID No-{{forloop.counter}}">
+                      <a href="{% url 'eventRegister' event.id %}" class="btn" style="background: teal;">Register</a>
+                      {% endif %}
                       {% endif %}
                     </div>
-
-                    {% endfor %}
-                    {% endwith %}
-
+                  </div>
                 </div>
-
-                <div class="modal-footer">
-                  <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
-                    class="btn" style="background-color: teal;">Register</a>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-                </form>
               </div>
-            </div>
-            </div>
-            <!--End Adding-Team Modal -->
-            {% endfor %} 
-            {% for event in non_tech_events|slice:":3" %}
-            <div class="purple card">
+              <!-- End Event Details Modal -->
+
+              <!-- Adding-Team Modal -->
+              <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
+                        Registration </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body">
+                      <form method="POST">
+                        {% csrf_token %}
+                        {% with ''|center:event.no_of_participants as range %}
+                        {% for i in range %}
+                        <div class="form-group">
+                          <label>Team Member-{{forloop.counter}}</label>
+                          {% if forloop.counter == 1 %}
+                          <input type="text" name="user_{{forloop.counter}}" class="form-control"
+                            value="{{user.username}}" disabled>
+                          {% else %}
+                          <input type="text" name="user_{{forloop.counter}}" class="form-control"
+                            placeholder="Enter ID No-{{forloop.counter}}">
+                          {% endif %}
+                        </div>
+
+                        {% endfor %}
+                        {% endwith %}
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}" class="btn"
+                        style="background-color: teal;">Register</a>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!--End Adding-Team Modal -->
+              {% endfor %}
+              {% for event in non_tech_events|slice:":3" %}
+              <div class="purple card">
                 <div class="ui fluid image">
-                    <img src="{{ event.cover.url }}" style="height: 180px;" />
+                  <img src="{{ event.cover.url }}" style="height: 180px;" />
                 </div>
                 <div class="content">
-                    <div class="header">{{ event.title|upper }}</div>
-                    <div class="meta">
-                        <a>{{ event.category|upper }}</a>
-                    </div>
-                    <div class="description">
-                        {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;" data-target="#event_{{ event.id }}"
-                        >read more</a
-                    >
-                    </div>
+                  <div class="header">{{ event.title|upper }}</div>
+                  <div class="meta">
+                    <a>{{ event.category|upper }}</a>
+                  </div>
+                  <div class="description">
+                    {{ event.description|slice:":50" }}...<a href="#" data-toggle="modal" style="color: teal;"
+                      data-target="#event_{{ event.id }}">read more</a>
+                  </div>
                 </div>
-                
+
                 {% if not user.is_staff %}
                 {% if event.title in reg_events_titles and user.is_authenticated %}
-                  <div class="ui disabled bottom attached button">Registered
+                <div class="ui disabled bottom attached button">Registered
                   <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
-                {% elif event.no_of_participants > 1 %}
+                  {% elif event.no_of_participants > 1 %}
                   {% if user.is_authenticated %}
-                    <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
-                  {% else %}
-                  <div class="ui bottom attached button">
-                    <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
-                  {% endif %}
-                {% else %}
-                  <div class="ui bottom attached button">
-                  <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
-                {% endif %}
-                {% else %}
-                <div class="ui disabled bottom attached button"><i class="add icon"></i>Register
-              {% endif %}
-                  
-                </div>
-            </div>
-                        <!-- Event Details Modal -->
-                        <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                        aria-hidden="true">
+                  <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary"
+                    data-toggle="modal" data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
+                    {% else %}
+                    <div class="ui bottom attached button">
+                      <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team
+                        Register</a>
+                      {% endif %}
+                      {% else %}
+                      <div class="ui bottom attached button">
+                        <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i
+                            class="add icon"></i>Register</a>
+                        {% endif %}
+                        {% else %}
+                        <div class="ui disabled bottom attached button"><i class="add icon"></i>Register
+                          {% endif %}
+
+                        </div>
+                      </div>
+                      <!-- Event Details Modal -->
+                      <div class="modal fade " id="event_{{event.id}}" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -234,7 +231,8 @@ crispy_forms_tags %} {% block content %}
                             <div class="modal-body">
                               <ul class="nav nav-pills justify-content-center">
                                 <li class="nav-item">
-                                  <a class="nav-link active" data-toggle="tab" href="#description_{{event.id}}">Description</a>
+                                  <a class="nav-link active" data-toggle="tab"
+                                    href="#description_{{event.id}}">Description</a>
                                 </li>
                                 <li class="nav-item">
                                   <a class="nav-link" data-toggle="tab" href="#rules_{{event.id}}">Rules</a>
@@ -246,7 +244,7 @@ crispy_forms_tags %} {% block content %}
                                   <a class="nav-link" data-toggle="tab" href="#winners_{{event.id}}">Winners</a>
                                 </li>
                               </ul>
-            
+
                               <div class="tab-content">
                                 {% autoescape off %}
                                 <div id="description_{{event.id}}" class="container tab-pane active"><br>
@@ -262,11 +260,11 @@ crispy_forms_tags %} {% block content %}
                                   <p>{{ event.winners }}</p>
                                 </div>
                                 {% endautoescape %}
-            
+
                               </div>
                             </div>
                             <div class="modal-footer">
-            
+
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                               {% if not user.is_staff %}
                               {% if event.title in reg_events_titles %}
@@ -275,27 +273,29 @@ crispy_forms_tags %} {% block content %}
                               <button type="button" data-dismiss="modal" class="btn btn-teal" data-toggle="modal"
                                 data-target="#addteam_{{event.id}}">Team Register</button>
                               {% else %}
-                              <a href="{% url 'eventRegister' event.id %}" class="btn btn-teal" >Register</a>
+                              <a href="{% url 'eventRegister' event.id %}" class="btn btn-teal">Register</a>
                               {% endif %}
                               {% endif %}
                             </div>
                           </div>
                         </div>
-                        </div>
-                        <!-- End Event Details Modal -->
-            
-                        <!-- Adding-Team Modal -->
-                        <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                      </div>
+                      <!-- End Event Details Modal -->
+
+                      <!-- Adding-Team Modal -->
+                      <div class="modal fade modal-auto" id="addteam_{{event.id}}" tabindex="-1" role="dialog"
+                        aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }} Team
+                              <h5 class="modal-title text-center" id="exampleModalCenterTitle">{{ event.title|upper }}
+                                Team
                                 Registration </h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-            
+
                             <div class="modal-body">
                               <form method="POST">
                                 {% csrf_token %}
@@ -304,19 +304,19 @@ crispy_forms_tags %} {% block content %}
                                 <div class="form-group">
                                   <label>Team Member-{{forloop.counter}}</label>
                                   {% if forloop.counter == 1 %}
-                                  <input type="text" name="user_{{forloop.counter}}" class="form-control" value="{{user.username}}"
-                                    disabled>
+                                  <input type="text" name="user_{{forloop.counter}}" class="form-control"
+                                    value="{{user.username}}" disabled>
                                   {% else %}
                                   <input type="text" name="user_{{forloop.counter}}" class="form-control"
                                     placeholder="Enter ID No-{{forloop.counter}}">
                                   {% endif %}
                                 </div>
-            
+
                                 {% endfor %}
                                 {% endwith %}
-            
+
                             </div>
-            
+
                             <div class="modal-footer">
                               <a href="{% url 'eventRegisterMany' event.id event.no_of_participants %}"
                                 class="btn btn-teal">Register</a>
@@ -325,185 +325,154 @@ crispy_forms_tags %} {% block content %}
                             </form>
                           </div>
                         </div>
-                        </div>
-                        <!--End Adding-Team Modal -->
-            {% endfor %} 
+                      </div>
+                      <!--End Adding-Team Modal -->
+                      {% endfor %}
 
-        </div>
-        <a
-        style="float: right;"
-        href="{% url 'allEvents' %}"
-
-        ><i class="angle double right icon"></i
-    >More</a>
-    </div>
-</div>
-
-<div id="updates">
-    {% if notices %}
-    <h1 class="ui center aligned icon header">
-        <!-- <i class="circular large bell icon"></i> -->
-        Updates
-    </h1>
-    <div class="ui container">
-        <table class="ui single line teal table">
-            <thead>
-              <tr>
-                <th>S.No</th>
-                <th>Notice Title</th>
-                <th>Date&Time</th>
-                <th>About</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% for notice in notices|slice:":5" %}
-              <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>
-                    <a
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#notice_{{ notice.id }}"
-                        >{{ notice.title }}</a
-                    >
-                </td>
-                <td>{{ notice.date_created }}</td>
-                <td>{{ notice.about }}</td>
-              </tr>
-<!-- Modal -->
-                    <div
-                        class="modal fade modal-auto"
-                        id="notice_{{notice.id}}"
-                        tabindex="-1"
-                        role="dialog"
-                        aria-labelledby="notification_model"
-                        aria-hidden="true"
-                    >
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5
-                                        class="modal-title"
-                                        id="exampleModalLabel"
-                                    >
-                                        {{ notice.title }}
-                                    </h5>
-                                    <button
-                                        type="button"
-                                        class="close"
-                                        data-dismiss="modal"
-                                        aria-label="Close"
-                                    >
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>{{ notice.body }}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button
-                                        type="button"
-                                        class="btn btn-secondary"
-                                        data-dismiss="modal"
-                                    >
-                                        Close
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    {% endfor %}
-            </tbody>
-          </table>
-
-            <a
-                style="float: right;"
-                href="{% url 'allNotices' %}"
-
-                ><i class="angle double right icon"></i
-            >More</a>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
-<div id="schedule" class="">
-    {% if schedule %}
-    <h1 class="ui center aligned icon header">
-        <!-- <i class="circular large calendar alternate icon"></i> -->
-        Schedule
-    </h1>
-    <div class="ui container">
-        <div class="ui three stackable raised teal cards">
-            {% for date, events in schedule.items %}
-            <div class="ui card">
-                <div class="content">
-                  <div class="header">{{ date|date:"D d M" }}'s Schedule</div>
-                  <div class="meta">
-                    <!-- <span>2 days ago</span>
-                    <a>Animals</a> -->
-                    
+                    <a style="float: right;" href="{% url 'allEvents' %}"><i
+                        class="angle double right icon"></i>More</a>
                   </div>
-                  <div class="description">
-                  <ul class="list-group">
-                    {% for event in events %}
-                    {% if event.isCompleted %}
-                    <li class="list-group-item disabled"><s>{{event.event.title}} :
-                        Round-{{event.round_no}}&nbsp;({{ event.start_time }})</s></li>
-                    {% elif event.isLive %}
-                    <li class="list-group-item"><mark>{{event.event.title}} :
-                        Round-{{event.round_no}}&nbsp;({{ event.start_time }})</mark></li>
-                    {% else %}
-                    <li class="list-group-item">{{event.event.title}} :
-                      Round-{{event.round_no}}&nbsp;({{ event.start_time }})</li>
-    
+                  {% endif %}
+                </div>
+
+                <div id="updates">
+                  {% if notices %}
+                  <h1 class="ui center aligned icon header">
+                    <!-- <i class="circular large bell icon"></i> -->
+                    Updates
+                  </h1>
+                  <div class="ui container">
+                    <table class="ui single line teal table">
+                      <thead>
+                        <tr>
+                          <th>S.No</th>
+                          <th>Notice Title</th>
+                          <th>Date&Time</th>
+                          <th>About</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for notice in notices|slice:":5" %}
+                        <tr>
+                          <td>{{ forloop.counter }}</td>
+                          <td>
+                            <a href="#" data-toggle="modal" data-target="#notice_{{ notice.id }}">{{ notice.title }}</a>
+                          </td>
+                          <td>{{ notice.date_created }}</td>
+                          <td>{{ notice.about }}</td>
+                        </tr>
+                        <!-- Modal -->
+                        <div class="modal fade modal-auto" id="notice_{{notice.id}}" tabindex="-1" role="dialog"
+                          aria-labelledby="notification_model" aria-hidden="true">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                  {{ notice.title }}
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <p>{{ notice.body }}</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                  Close
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+
+                    <a style="float: right;" href="{% url 'allNotices' %}"><i
+                        class="angle double right icon"></i>More</a>
                     {% endif %}
-                    {% endfor %}
-                    </ul></div>
+                  </div>
                 </div>
               </div>
-              {% endfor %}
-          </div>
-    </div>
-    {% endif %}
-</div>
 
-<!-- Test Block -->
-    
+              <div id="schedule" class="">
+                {% if schedule %}
+                <h1 class="ui center aligned icon header">
+                  <!-- <i class="circular large calendar alternate icon"></i> -->
+                  Schedule
+                </h1>
+                <div class="ui container">
+                  <div class="ui three stackable raised teal cards">
+                    {% for date, events in schedule.items %}
+                    <div class="ui card">
+                      <div class="content">
+                        <div class="header">{{ date|date:"D d M" }}'s Schedule</div>
+                        <div class="meta">
+                          <!-- <span>2 days ago</span>
+                    <a>Animals</a> -->
 
-    <div id="test" style="padding-top: 90px;" >
-        {% if user.is_authenticated %}
-        <h2 class="ui center aligned icon header">
-            <!-- <i class="circular large call volume icon"></i> -->
-            Test
-        </h2>
-        <div class="ui container">
-            <table class="ui single line teal table">
-                <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Msg Subject</th>
-                    <th>Date&Time</th>
-                    <th>About</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr>
+                        </div>
+                        <div class="description">
+                          <ul class="list-group">
+                            {% for event in events %}
+                            {% if event.isCompleted %}
+                            <li class="list-group-item disabled"><s>{{event.event.title}} :
+                                Round-{{event.round_no}}&nbsp;({{ event.start_time }})</s></li>
+                            {% elif event.isLive %}
+                            <li class="list-group-item"><mark>{{event.event.title}} :
+                                Round-{{event.round_no}}&nbsp;({{ event.start_time }})</mark></li>
+                            {% else %}
+                            <li class="list-group-item">{{event.event.title}} :
+                              Round-{{event.round_no}}&nbsp;({{ event.start_time }})</li>
+
+                            {% endif %}
+                            {% endfor %}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+
+              <!-- Test Block -->
+
+
+              <div id="test" style="padding-top: 90px;">
+                <h2 class="ui center aligned icon header">
+                  <!-- <i class="circular large call volume icon"></i> -->
+                  Test
+                </h2>
+                <div class="ui container">
+                  <table class="ui single line teal table">
+                    <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Msg Subject</th>
+                        <th>Date&Time</th>
+                        <th>About</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
                         <td>1</td>
                         <td><a href="#file">File to download</a></td>
                         <td>Today's date and present time</td>
                         <td>Testing the updates tables</td>
-                    </tr>
-                    <tr>
+                      </tr>
+                      <tr>
                         <td>2</td>
                         <td><a href="#file">File to download</a></td>
                         <td>Today's date and present time</td>
                         <td>Testing the updates tables</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-      </div>
-    {% endif %}
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
 
-{% endblock content %}
+              {% endblock content %}

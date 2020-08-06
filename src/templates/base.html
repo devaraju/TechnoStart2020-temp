@@ -2,380 +2,246 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-        <link
-            rel="shortcut icon"
-            href="{% static 'images/logo.ico' %}"
-            type="image/x-icon"
-        />
-        <!-- Bootstrap CSS -->
-        <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" /> -->
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
-            integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX"
-            crossorigin="anonymous"
-        />
 
-        <!-- Semantic-ui CSS -->
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
-        />
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="{% static 'images/logo.ico' %}" type="image/x-icon" />
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" /> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
+        integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous" />
 
-        <!-- CUSTOM CSS -->
-        <link rel="stylesheet" href="{% static 'css/mystyle.css' %}" />
+    <!-- Semantic-ui CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
 
-        <title>TS 2020</title>
-    </head>
+    <!-- CUSTOM CSS -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}" />
 
-    <body>
-        <nav
-            class="navbar fixed-top navbar-expand-lg navbar-dark"
-            style="background: teal;"
-        >
-            <a class="navbar-brand" href="{% url 'home' %}">
-                <h4 class="ui header" style="color: whitesmoke;">
-                    <img
-                        class="ui circular image"
-                        src="{% static 'images/brand-logo.png' %}"
-                        alt=""
-                        loading="lazy"
-                    />
-                    <div class="content" style="font-style: italic;">
-                        TechnoStart-2020
-                    </div>
-                </h4>
-            </a>
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <title>TS 2020</title>
+</head>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#home"
-                            ><i class="home icon"></i>Home
-                            <span class="sr-only">(current)</span></a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#events"
-                            ><i class="bullhorn icon"></i>Events</a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#updates"
-                            ><i class="bell icon"></i>Updates</a
-                        >
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#schedule"
-                            ><i class="calendar alternate icon"></i>Schedule</a
-                        >
-                    </li>
-                    <!-- <li class="nav-item">
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background: teal;">
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <h4 class="ui header" style="color: whitesmoke;">
+                <img class="ui circular image" src="{% static 'images/brand-logo.png' %}" alt="" loading="lazy" />
+                <div class="content" style="font-style: italic;">
+                    TechnoStart-2020
+                </div>
+            </h4>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}#home"><i class="home icon"></i>Home
+                        <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}#events"><i class="bullhorn icon"></i>Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}#updates"><i class="bell icon"></i>Updates</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}#schedule"><i
+                            class="calendar alternate icon"></i>Schedule</a>
+                </li>
+                <!-- <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}#contact"
                             ><i class="phone volume icon"></i>Contact</a
                         >
                     </li> -->
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}#test"
-                            ><i class="edit icon"></i>Test</a
-                        >
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="#"
-                            id="navbarDropdown"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            {{ user|upper }}
-                        </a>
-                        <div
-                            class="dropdown-menu"
-                            aria-labelledby="navbarDropdown"
-                        >
-                            <!-- <a
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}#test"><i class="edit icon"></i>Test</a>
+                </li>{% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user|upper }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <!-- <a
                                 class="dropdown-item"
                                 href="#"
                                 data-toggle="modal"
                                 data-target="#profile"
                                 ><i class="user icon"></i>Profile</a
                             > -->
-                            <a class="dropdown-item" href="#profile"
-                                ><i class="user icon"></i>Profile</a
-                            >
-                            <div class="dropdown-divider"></div>
-                            <a
-                                class="dropdown-item"
-                                href="#"
-                                data-toggle="modal"
-                                data-target="#logoutModal"
-                                ><i class="lock icon"></i>Logout</a
-                            >
-                        </div>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login'%}"
-                            ><i class="unlock icon"></i>Login</a
-                        >
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </nav>
-
-        {% block content %}{% endblock content%}
-
-        <!-- MODALS -->
-        <!-- Profile Model-->
-        {% if user.is_authenticated %}
-        <div
-            class="modal fade modal-auto"
-            id="profile"
-            tabindex="-1"
-            role="dialog"
-            aria-hidden="true"
-        >
-            <div
-                class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
-                role="document"
-            >
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5
-                            class="modal-title text-center"
-                            id="exampleModalCenterTitle"
-                        >
-                            {{ user.username|upper }}
-                        </h5>
-                        <button
-                            type="button"
-                            class="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <a class="dropdown-item" href="#profile"><i class="user icon"></i>Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i
+                                class="lock icon"></i>Logout</a>
                     </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <!-- Nav tabs -->
-                            <ul class="nav nav-pills justify-content-center">
-                                <li class="nav-item">
-                                    <a
-                                        class="nav-link active"
-                                        data-toggle="tab"
-                                        href="#eventsdata"
-                                        >Registered Events</a
-                                    >
-                                </li>
-                                <li class="nav-item">
-                                    <a
-                                        class="nav-link"
-                                        data-toggle="tab"
-                                        href="#profiledata"
-                                        >Profile</a
-                                    >
-                                </li>
-                            </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login'%}"><i class="unlock icon"></i>Login</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
 
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div
-                                    id="eventsdata"
-                                    class="container tab-pane active my-3"
-                                >
-                                    <table class="table table-striped p-0 m-0">
-                                        <thead
-                                            class="bg-dark"
-                                            style="color: whitesmoke;"
-                                        >
-                                            <tr>
-                                                <th
-                                                    scope="col"
-                                                    style="width: 10%;"
-                                                >
-                                                    S.No
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style="width: 20%;"
-                                                >
-                                                    Reg. IDs
-                                                </th>
-                                                <th
-                                                    scope="col"
-                                                    style="width: 70%;"
-                                                >
-                                                    Reg. Events
-                                                </th>
-                                            </tr>
-                                        </thead>
+    {% block content %}{% endblock content%}
+
+    <!-- MODALS -->
+    <!-- Profile Model-->
+    {% if user.is_authenticated %}
+    <div class="modal fade modal-auto" id="profile" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="exampleModalCenterTitle">
+                        {{ user.username|upper }}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-pills justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#eventsdata">Registered Events</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#profiledata">Profile</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div id="eventsdata" class="container tab-pane active my-3">
+                                <table class="table table-striped p-0 m-0">
+                                    <thead class="bg-dark" style="color: whitesmoke;">
+                                        <tr>
+                                            <th scope="col" style="width: 10%;">
+                                                S.No
+                                            </th>
+                                            <th scope="col" style="width: 20%;">
+                                                Reg. IDs
+                                            </th>
+                                            <th scope="col" style="width: 70%;">
+                                                Reg. Events
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for event in reg_events_data %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{event.idnos}}</td>
+                                            <td>
+                                                <p>{{event.reg_events}}</p>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div id="profiledata" style="color: black;" class="container tab-pane fade my-3">
+                                <center>
+                                    <table class="table table-striped" style="width: 60%;">
                                         <tbody>
-                                            {% for event in reg_events_data %}
                                             <tr>
-                                                <td>{{forloop.counter}}</td>
-                                                <td>{{event.idnos}}</td>
-                                                <td>
-                                                    <p>{{event.reg_events}}</p>
+                                                <td id="left_cell">
+                                                    University ID
+                                                </td>
+                                                <td id="rifht_cell">
+                                                    <strong>{{
+                                                            profile_data.idno
+                                                            }}</strong>
                                                 </td>
                                             </tr>
-                                            {% endfor %}
+                                            <tr>
+                                                <td id="left_cell">Name</td>
+                                                <td id="rifht_cell">
+                                                    <strong>{{
+                                                            profile_data.name|upper
+                                                            }}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="left_cell">
+                                                    Section
+                                                </td>
+                                                <td id="rifht_cell">
+                                                    <strong>{{
+                                                            profile_data.section|upper
+                                                            }}</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td id="left_cell">
+                                                    Batch
+                                                </td>
+                                                <td id="rifht_cell">
+                                                    <strong>{{
+                                                            profile_data.batch|upper
+                                                            }}</strong>
+                                                </td>
+                                            </tr>
                                         </tbody>
                                     </table>
-                                </div>
-
-                                <div
-                                    id="profiledata"
-                                    style="color: black;"
-                                    class="container tab-pane fade my-3"
-                                >
-                                    <center>
-                                        <table
-                                            class="table table-striped"
-                                            style="width: 60%;"
-                                        >
-                                            <tbody>
-                                                <tr>
-                                                    <td id="left_cell">
-                                                        University ID
-                                                    </td>
-                                                    <td id="rifht_cell">
-                                                        <strong
-                                                            >{{
-                                                            profile_data.idno
-                                                            }}</strong
-                                                        >
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="left_cell">Name</td>
-                                                    <td id="rifht_cell">
-                                                        <strong
-                                                            >{{
-                                                            profile_data.name|upper
-                                                            }}</strong
-                                                        >
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="left_cell">
-                                                        Section
-                                                    </td>
-                                                    <td id="rifht_cell">
-                                                        <strong
-                                                            >{{
-                                                            profile_data.section|upper
-                                                            }}</strong
-                                                        >
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td id="left_cell">
-                                                        Batch
-                                                    </td>
-                                                    <td id="rifht_cell">
-                                                        <strong
-                                                            >{{
-                                                            profile_data.batch|upper
-                                                            }}</strong
-                                                        >
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </center>
-                                </div>
+                                </center>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button
-                            type="button"
-                            class="btn btn-secondary"
-                            data-dismiss="modal"
-                        >
-                            Close
-                        </button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
-        {% endif %}
-        <!-- end profile model -->
+    </div>
+    {% endif %}
+    <!-- end profile model -->
 
-        <!-- Logout Modal-->
-        {% if user.is_authenticated %}
-        <div
-            class="modal fade"
-            id="logoutModal"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            Ready to Leave?
-                        </h5>
-                        <button
-                            class="close"
-                            type="button"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                        >
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Select "Logout" below if you are ready to end your
-                        current session.
-                    </div>
-                    <div class="modal-footer">
-                        <button
-                            class="btn btn-secondary"
-                            type="button"
-                            data-dismiss="modal"
-                        >
-                            Cancel
-                        </button>
-                        <a class="btn btn-danger" href="{% url 'logout' %}"
-                            >Logout</a
-                        >
-                    </div>
+    <!-- Logout Modal-->
+    {% if user.is_authenticated %}
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Ready to Leave?
+                    </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Select "Logout" below if you are ready to end your
+                    current session.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
+                        Cancel
+                    </button>
+                    <a class="btn btn-danger" href="{% url 'logout' %}">Logout</a>
                 </div>
             </div>
         </div>
-        {% endif %}
-        <!-- end logout model -->
-        <!-- END MODALS -->
+    </div>
+    {% endif %}
+    <!-- end logout model -->
+    <!-- END MODALS -->
 
-        <!-- Footer -->
-        <!-- <style>
+    <!-- Footer -->
+    <!-- <style>
             footer {
                 position: absolute;
                 bottom: 0;
@@ -383,69 +249,52 @@
             }
         </style> -->
 
-        <footer class="font-small p-3 mt-3 bg-dark">
-            <div class="container text-center">
-                <div class="social-media icons p-3">
-                    <a href="{% url 'home' %}#home" style="float: right;">
-                        <i
-                            class="circular inverted teal large angle double up icon"
-                        ></i>
-                    </a>
-                    <a
-                        href="https://www.instagram.com/_d3varaj_/"
-                        target="_blank"
-                    >
-                        <!-- <i class="circular inverted blue large instagram icon"></i> -->
-                        <i class="red big instagram icon"></i>
-                    </a>
-                    <a href="#facebook"
-                        ><i class="blue big facebook icon"></i
-                    ></a>
-                    <a href="https://twitter.com/_deva_raj_" target="_blank"
-                        ><i class="blue big twitter icon"></i
-                    ></a>
-                </div>
+    <footer class="font-small p-3 mt-3 bg-dark">
+        <div class="container text-center">
+            <div class="social-media icons p-3">
+                <a href="{% url 'home' %}#home" style="float: right;">
+                    <i class="circular inverted teal large angle double up icon"></i>
+                </a>
+                <a href="https://www.instagram.com/_d3varaj_/" target="_blank">
+                    <!-- <i class="circular inverted blue large instagram icon"></i> -->
+                    <i class="red big instagram icon"></i>
+                </a>
+                <a href="#facebook"><i class="blue big facebook icon"></i></a>
+                <a href="https://twitter.com/_deva_raj_" target="_blank"><i class="blue big twitter icon"></i></a>
+            </div>
 
-                <div class="copyright">
-                    &copy; Copyright <strong>CSE dept</strong>. All Rights
-                    Reserved
-                </div>
-                <div class="credits" data-tooltip="DeV@">
-                    Designed by
-                    <!-- <a href="" style="text-decoration: none; color: teal;"
+            <div class="copyright">
+                &copy; Copyright <strong>CSE dept</strong>. All Rights
+                Reserved
+            </div>
+            <div class="credits" data-tooltip="DeV@">
+                Designed by
+                <!-- <a href="" style="text-decoration: none; color: teal;"
                         >DeV@</a
                     > -->
-                    <img
-                        src="{% static 'images/dev.jpg' %}"
-                        class="ui avatar image"
-                    />
-                </div>
+                <img src="{% static 'images/dev.jpg' %}" class="ui avatar image" />
             </div>
-        </footer>
+        </div>
+    </footer>
 
-        <!-- Footer -->
+    <!-- Footer -->
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
-        <!-- <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
+    <!-- <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
         <script src="{% static 'js/popper.min.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script> -->
 
-        <script
-            src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"
-        ></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-            crossorigin="anonymous"
-        ></script>
-        <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
-            integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
+        integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J"
+        crossorigin="anonymous"></script>
+</body>
+
 </html>

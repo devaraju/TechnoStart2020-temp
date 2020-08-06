@@ -24,7 +24,7 @@ def allNotices(request):
         'reg_events_titles':reg_events_titles
     }
 
-    return render(request,'notices.html',)
+    return render(request,'notices.html', context)
 
 def getRegEventsIds(user):
     try:

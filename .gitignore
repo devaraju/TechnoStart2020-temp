@@ -2,7 +2,7 @@
 *.sqlite3
 migrations/
 __pycache__/
-global-statics/
+staticfiles/
 
 ts2020_db
 

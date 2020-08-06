@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +21,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get('TS2020_SECRET_KEY')
-SECRET_KEY = 'e4f*#1)5&p=!@1s5s5=o&!krqi%)ur%fqe#_wbz^5v@zr*yzob'
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 1
+SECRET_KEY = os.environ.get('TS2020_SECRET_KEY')
 
-ALLOWED_HOSTS = ['*']
+# SECURITY WARNING: don't run with debug turned on in production!
+
+DEBUG = bool(os.environ.get('TS2020_DEBUG', False))
+
+ALLOWED_HOSTS = [os.environ.get('TS2020_ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -79,17 +81,13 @@ WSGI_APPLICATION = 'TechnoStart2020.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': os.environ.get('TS2020_DB_NAME'),
-    #     'USER': os.environ.get('TS2020_DB_USER'),
-    #     'PASSWORD': os.environ.get('TS2020_DB_PASSWORD'),
-    #     'HOST': os.environ.get('TS2020_DB_HOST'),
-    #     'PORT': os.environ.get('TS2020_DB_PORT'),
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'ts2020_db',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('TS2020_DB_NAME'),
+        'USER': os.environ.get('TS2020_DB_USER'),
+        'PASSWORD': os.environ.get('TS2020_DB_PASSWORD'),
+        'HOST': os.environ.get('TS2020_DB_HOST'),
+        'PORT': os.environ.get('TS2020_DB_PORT'),
     }
 }
 
@@ -131,7 +129,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'global-statics')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -153,3 +151,6 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'red'
 }
+
+# Activate Heroku settings for django
+django_heroku.settings(locals())

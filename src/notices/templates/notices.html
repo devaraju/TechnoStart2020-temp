@@ -6,6 +6,7 @@ tz %} {%block content %}
         bottom: 0;
         width: 100%;
     }
+
     div#single-page {
         padding-top: 90px;
     }
@@ -30,37 +31,21 @@ tz %} {%block content %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
                     <td>
-                        <a
-                            href="#"
-                            data-toggle="modal"
-                            data-target="#notice_{{ notice.id }}"
-                            >{{ notice.title }}</a
-                        >
+                        <a href="#" data-toggle="modal" data-target="#notice_{{ notice.id }}">{{ notice.title }}</a>
                     </td>
                     <td>{{ notice.date_created }}</td>
                     <td>{{ notice.about }}</td>
                 </tr>
                 <!-- Modal -->
-                <div
-                    class="modal fade modal-auto"
-                    id="notice_{{notice.id}}"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-labelledby="notification_model"
-                    aria-hidden="true"
-                >
+                <div class="modal fade modal-auto" id="notice_{{notice.id}}" tabindex="-1" role="dialog"
+                    aria-labelledby="notification_model" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel">
                                     {{ notice.title }}
                                 </h5>
-                                <button
-                                    type="button"
-                                    class="close"
-                                    data-dismiss="modal"
-                                    aria-label="Close"
-                                >
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -68,11 +53,7 @@ tz %} {%block content %}
                                 <p>{{ notice.body }}</p>
                             </div>
                             <div class="modal-footer">
-                                <button
-                                    type="button"
-                                    class="btn btn-secondary"
-                                    data-dismiss="modal"
-                                >
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                     Close
                                 </button>
                             </div>
