@@ -44,22 +44,24 @@
       </div>
     
       {% if not user.is_staff %}
-                {% if event.title in reg_events_titles and user.is_authenticated %}
-                  <div class="ui disabled bottom attached button">Registered
-                  <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
-                {% elif event.no_of_participants > 1 %}
-                  {% if user.is_authenticated %}
-                    <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
-                  {% else %}
-                  <div class="ui bottom attached button">
-                    <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
-                  {% endif %}
-                {% else %}
-                  <div class="ui bottom attached button">
-                  <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
-                {% endif %}
-              {% endif %}
+        {% if event.title in reg_events_titles and user.is_authenticated %}
+          <div class="ui disabled bottom attached button">Registered
+          <!-- <button type="button" class="btn btn-success" disabled="true">Registered!</button> -->
+        {% elif event.no_of_participants > 1 %}
+          {% if user.is_authenticated %}
+            <div class="ui bottom attached button" type="button" data-dismiss="modal" class="btn btn-primary" data-toggle="modal"
+            data-target="#addteam_{{event.id}}"><i class="add icon"></i>Team Register
+          {% else %}
+          <div class="ui bottom attached button">
+            <a href="{% url 'login' %}" style="text-decoration: none;"><i class="add icon"></i>Team Register</a>
+          {% endif %}
+        {% else %}
+          <div class="ui bottom attached button">
+          <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
+        {% endif %}
+      {% else %}
+        <div class="ui disabled bottom attached button"><i class="add icon"></i>Register
+      {% endif %}
       
     </div>
 </div>

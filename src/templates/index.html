@@ -67,6 +67,8 @@ crispy_forms_tags %} {% block content %}
                   <div class="ui bottom attached button">
                   <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
                 {% endif %}
+                {% else %}
+                <div class="ui disabled bottom attached button"><i class="add icon"></i>Register
               {% endif %}
                   
                 </div>
@@ -212,6 +214,8 @@ crispy_forms_tags %} {% block content %}
                   <div class="ui bottom attached button">
                   <a href="{% url 'eventRegister' event.id %}" style="text-decoration: none;"><i class="add icon"></i>Register</a>
                 {% endif %}
+                {% else %}
+                <div class="ui disabled bottom attached button"><i class="add icon"></i>Register
               {% endif %}
                   
                 </div>
@@ -486,13 +490,13 @@ crispy_forms_tags %} {% block content %}
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td><a href="#">File to download</a></td>
+                        <td><a href="#file">File to download</a></td>
                         <td>Today's date and present time</td>
                         <td>Testing the updates tables</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td><a href="#">File to download</a></td>
+                        <td><a href="#file">File to download</a></td>
                         <td>Today's date and present time</td>
                         <td>Testing the updates tables</td>
                     </tr>

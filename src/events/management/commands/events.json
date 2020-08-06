@@ -1,65 +1,56 @@
 [
     {
-        "name": "Icon Of CSE",
+        "title": "Icon Of CSE",
         "description": "Inorder to be irreplaceable, one must always be Unique. If you are unique, Why can't you be the Icon of CSE!!!! If you think you are, then this is the place to prove it. Analyse, explore and unleash your innate talents. Be the ICON OF CSE.The one who is going to be Icon must have all technical, non-technical, inter personal skills. The one should have Confidence to face a problem and should think logically to solve that problem. So We are here to recognize that person and eagerly excited to announce the ICON OF CSE. It's your turn to explore yourself.",
         "category": "technical",
-        "rules": "",
-        "no of paticipants": "1"
+        "no_of_participants": "1"
     },
     {
-        "name": "Top Coder",
+        "title": "Top Coder",
         "description": "Programming is all about a more effective way for problem solving.It's not about how many algorithms you've learnt.It's all about which algorithm we need to choose how we are applying a algorithm to a real world problem.",
         "category": "technical",
-        "rules": "",
-        "no of paticipants": "1"
+        "no_of_participants": "1"
     },
     {
-        "name": "Technical Quize",
+        "title": "Technical Quize",
         "description": "This is an event which helps you to test your knowledge in core subjects of our beloved Computer Science Engineering. It helps you to interact with your seniors and juniors and form as a team to share knowledge, ideas, thoughts. It gives an idea about the model of questions which are asked in GATE, BARC, ISRO and even Campus Placements. So Let's form as a team with your seniors/juniors and gain more knowledge from this event and make it a grand success.",
         "category": "technical",
-        "rules": "",
-        "no of paticipants": "5"
+        "no_of_participants": "5"
     },
     {
-        "name": "Code Marathon",
+        "title": "Code Marathon",
         "description": "It's time for all the night coding ninja's.This is an online programming competition held in hackerrank during the night time.",
         "category": "technical",
-        "rules": "",
-        "no of paticipants": "4"
+        "no_of_participants": "4"
     },
     {
-        "name": "Pair programming",
+        "title": "Pair programming",
         "description": "Bring out the inner Mr. Robot in you as this event brings to you an intense and heavy coding atmosphere. ‘Swap Your Minds’ demands your skills in data structures, algorithms, basic programming and teamwork as you attempt a vigorous coding exercise as a team of three.This event gives you an opportunity to showcase your coding skills as a team of three but with the confidence of multiple minds.",
         "category": "technical",
-        "rules": "",
-        "no of paticipants": "1"
+        "no_of_participants": "1"
     },
     {
-        "name": "Counter Strike",
+        "title": "Counter Strike",
         "description": "Counter-Strike (CS) is a series of multiplayer first-person shooter video games, in which teams of terrorists battle to perpetrate an act of terror (bombing, hostage-taking) and counter-terrorists try to prevent it (bomb defusal, hostage rescue).",
         "category": "non-technical",
-        "rules": "",
-        "no of paticipants": "5"
+        "no_of_participants": "5"
     },
     {
-        "name": "Logo Design",
+        "title": "Logo Design",
         "description": "Logo is the something which depicts your department. It's something you feel as your own. You just feel someone's designed logo as your own. Now make your own designed logo be the everyone's logo and logo of the department.",
         "category": "non-technical",
-        "rules": "",
-        "no of paticipants": "1"
+        "no_of_participants": "1"
     },
     {
-        "name": "Jukebox",
+        "title": "Jukebox",
         "description": "Music itself a healing medicine. It's an explosive expression of humanity. It's something we're all touched by. No matter what culture we're from, everyone loves music. Without music, life would be a mistake. Don't do that mistake, we're here to protect you.",
         "category": "non-technical",
-        "rules": "",
-        "no of paticipants": "4"
+        "no_of_participants": "4"
     },
     {
-        "name": "Orator of CSE",
+        "title": "Orator of CSE",
         "description": "Knowledge is of no value unless you put it into practice and the best practice is speaking..!! Speak out to spread your knowledge..!! Here comes the golden opportunity to show case your oratory skills!",
         "category": "non-technical",
-        "rules": "",
-        "no of paticipants": "1"
+        "no_of_participants": "1"
     }
 ]
